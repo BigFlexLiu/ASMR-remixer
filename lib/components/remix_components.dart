@@ -1,3 +1,4 @@
+import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:asmr_maker/pages/sound_setting.dart';
 import 'package:asmr_maker/providers/Remix_playing.dart';
@@ -62,29 +63,30 @@ class _RemixSoundListState extends State<RemixSoundList> {
             .names
             .map((fileName) {
       List favourites = context.watch<Favourites>().favouriteSounds;
-      String soundName = getSoundFriendlyName(fileName.substring(7));
-      bool isSoundInRemix = widget.remix.isSoundInRemix(soundName);
+      String friendlyName = getSoundFriendlyName(fileName);
+      String sourceName = fileName.substring(7);
+      bool isSoundInRemix = widget.remix.isSoundInRemix(sourceName);
 
       return Column(
         children: [
           Row(
             children: [
-              SoundAddButton(widget.remix, soundName,
+              SoundAddButton(widget.remix, sourceName,
                   () => setState(() => isSoundInRemix = !isSoundInRemix)),
               Expanded(
                 flex: 5,
                 child: Container(
                   child: Text(
-                    soundName,
+                    friendlyName,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
               PlayRemixButton(widget.remix),
-              FavouriteButton(favourites, soundName),
+              FavouriteButton(favourites, sourceName),
               if (isSoundInRemix)
-                SoundSettingButton(widget.remix.getSound(soundName)),
+                SoundSettingButton(widget.remix.getSound(sourceName)),
             ],
           ),
           CommonDivider()
@@ -164,5 +166,33 @@ class RemixSettingButton extends StatelessWidget {
         onPressed: () => Navigator.push(context,
             MaterialPageRoute(builder: (context) => RemixSettings(remix))),
         icon: const Icon(Icons.settings));
+  }
+}
+
+class RemixModeButton extends StatefulWidget {
+  RemixModeButton(this.remix, {super.key}) : modeName = remix.mode.name;
+  Remix remix;
+  String modeName;
+
+  @override
+  State<RemixModeButton> createState() => _RemixModeButtonState();
+}
+
+class _RemixModeButtonState extends State<RemixModeButton> {
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+        onPressed: () {
+          setState(() {
+            if (widget.remix.mode == RemixModes.overlay) {
+              widget.remix.mode = RemixModes.sequential;
+              widget.modeName = widget.remix.mode.name;
+            } else {
+              widget.remix.mode = RemixModes.overlay;
+              widget.modeName = widget.remix.mode.name;
+            }
+          });
+        },
+        child: Text(widget.modeName));
   }
 }

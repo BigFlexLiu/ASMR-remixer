@@ -83,11 +83,7 @@ class _RemixSettingsState extends State<RemixSettings> {
         ),
         body: Column(children: [
           CommonDivider(),
-          CarouselSlider(
-            items:
-                remixOptions.map((value) => CarouselItem(value.name)).toList(),
-            options: CarouselOptions(height: 30),
-          ),
+          RemixModeButton(widget.remix),
           CommonDivider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

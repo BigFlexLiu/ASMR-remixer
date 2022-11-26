@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import '../components/enum_def.dart';
 
 class Remix with ChangeNotifier {
-  RemixModes mode = RemixModes.overlay;
+  RemixModes _mode = RemixModes.overlay;
   List<Sound> sounds = [];
   String name = "unnamed";
   // Only works with mode = RemixModes.overlay
@@ -72,12 +72,18 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
+  RemixModes get mode => _mode;
+  set mode(RemixModes newMode) {
+    mode = newMode;
+    notifyListeners();
+  }
+
   List<double> get fadeRange => [0, 3];
   List<int> get soundsPerMinuteRange => [1, 60];
 
   Remix.fromJson(Map<String, dynamic> json)
       : name = json['name'],
-        mode = RemixModes.values
+        _mode = RemixModes.values
             .firstWhere((element) => element.toString() == json['mode']),
         _soundsPerMinute = json['soundsPerMinute'],
         _fade = json['fade'] {
@@ -91,7 +97,7 @@ class Remix with ChangeNotifier {
   }
 
   Map<String, dynamic> toJson() => {
-        "mode": mode.toString(),
+        "mode": _mode.toString(),
         "sounds": sounds.map((e) => e.toJson()).toList(),
         "name": name,
         "soundsPerMinute": soundsPerMinute,
