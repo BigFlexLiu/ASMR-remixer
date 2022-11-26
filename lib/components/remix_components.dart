@@ -170,9 +170,10 @@ class RemixSettingButton extends StatelessWidget {
 }
 
 class RemixModeButton extends StatefulWidget {
-  RemixModeButton(this.remix, {super.key}) : modeName = remix.mode.name;
+  RemixModeButton(this.remix, this.onPressed, {super.key}) : mode = remix.mode;
   Remix remix;
-  String modeName;
+  RemixModes mode;
+  VoidCallback onPressed;
 
   @override
   State<RemixModeButton> createState() => _RemixModeButtonState();
@@ -182,17 +183,12 @@ class _RemixModeButtonState extends State<RemixModeButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        onPressed: () {
-          setState(() {
-            if (widget.remix.mode == RemixModes.overlay) {
-              widget.remix.mode = RemixModes.sequential;
-              widget.modeName = widget.remix.mode.name;
-            } else {
-              widget.remix.mode = RemixModes.overlay;
-              widget.modeName = widget.remix.mode.name;
-            }
-          });
-        },
-        child: Text(widget.modeName));
+        style: ButtonStyle(
+            minimumSize: MaterialStatePropertyAll(Size.fromHeight(50))),
+        onPressed: widget.onPressed,
+        child: Text(
+          widget.mode.name,
+          style: Theme.of(context).textTheme.titleLarge,
+        ));
   }
 }

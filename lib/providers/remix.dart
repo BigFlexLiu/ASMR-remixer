@@ -74,7 +74,7 @@ class Remix with ChangeNotifier {
 
   RemixModes get mode => _mode;
   set mode(RemixModes newMode) {
-    mode = newMode;
+    _mode = newMode;
     notifyListeners();
   }
 

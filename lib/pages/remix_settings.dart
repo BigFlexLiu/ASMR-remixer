@@ -11,10 +11,12 @@ import '../providers/remixes.dart';
 class RemixSettings extends StatefulWidget {
   RemixSettings(this.remix, {super.key})
       : fade = remix.fade,
-        soundsPerMinute = remix.soundsPerMinute;
+        soundsPerMinute = remix.soundsPerMinute,
+        mode = remix.mode;
   Remix remix;
   double fade;
   int soundsPerMinute;
+  RemixModes mode;
 
   @override
   State<RemixSettings> createState() => _RemixSettingsState();
@@ -83,7 +85,19 @@ class _RemixSettingsState extends State<RemixSettings> {
         ),
         body: Column(children: [
           CommonDivider(),
-          RemixModeButton(widget.remix),
+          RemixModeButton(widget.remix, () {
+            if (widget.mode == RemixModes.overlay) {
+              widget.remix.mode = RemixModes.sequential;
+              setState(() {
+                widget.mode = RemixModes.sequential;
+              });
+              return;
+            }
+            setState(() {
+              widget.mode = RemixModes.overlay;
+            });
+            widget.remix.mode = RemixModes.overlay;
+          }),
           CommonDivider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -100,26 +114,28 @@ class _RemixSettingsState extends State<RemixSettings> {
             max: widget.remix.fadeRange[1],
           ),
           CommonDivider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("Sounds"),
-              Text(widget.soundsPerMinute.toString() + " per minute")
-            ],
-          ),
-          Slider(
-            value: widget.soundsPerMinute.toDouble(),
-            onChanged: (value) =>
-                setState(() => widget.soundsPerMinute = value.toInt()),
-            onChangeEnd: (value) =>
-                widget.remix.soundsPerMinute = value.toInt(),
-            min: widget.remix.soundsPerMinuteRange[0].toDouble(),
-            max: widget.remix.soundsPerMinuteRange[1].toDouble(),
-            divisions: (widget.remix.soundsPerMinuteRange[1] -
-                    widget.remix.soundsPerMinuteRange[0])
-                .round(),
-          ),
-          CommonDivider(),
+          if (widget.mode == RemixModes.overlay)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text("Sounds"),
+                Text(widget.soundsPerMinute.toString() + " per minute")
+              ],
+            ),
+          if (widget.mode == RemixModes.overlay)
+            Slider(
+              value: widget.soundsPerMinute.toDouble(),
+              onChanged: (value) =>
+                  setState(() => widget.soundsPerMinute = value.toInt()),
+              onChangeEnd: (value) =>
+                  widget.remix.soundsPerMinute = value.toInt(),
+              min: widget.remix.soundsPerMinuteRange[0].toDouble(),
+              max: widget.remix.soundsPerMinuteRange[1].toDouble(),
+              divisions: (widget.remix.soundsPerMinuteRange[1] -
+                      widget.remix.soundsPerMinuteRange[0])
+                  .round(),
+            ),
+          if (widget.mode == RemixModes.overlay) CommonDivider(),
           Expanded(flex: 5, child: RemixSoundList(widget.remix))
         ]));
   }
