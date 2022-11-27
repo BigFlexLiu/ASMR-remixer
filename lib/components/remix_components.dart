@@ -83,7 +83,7 @@ class _RemixSoundListState extends State<RemixSoundList> {
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
-              PlayRemixButton(widget.remix),
+              PlayButton(sourceName),
               FavouriteButton(favourites, sourceName),
               if (isSoundInRemix)
                 SoundSettingButton(widget.remix.getSound(sourceName)),

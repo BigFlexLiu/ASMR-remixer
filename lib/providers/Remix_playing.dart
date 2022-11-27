@@ -86,7 +86,12 @@ class RemixPlayer {
     // Self recursion without hurting the stack (Check)
     AudioPlayer player = await playSound(_nextSound, playerList: players);
     player.onPlayerComplete.listen((event) {
-      setSound(_nextSound, player).then((value) => player.resume());
+      Sound sound = _nextSound;
+      print("Playing ${sound.name}");
+      setSound(sound, player).then((value) => value.resume());
+    });
+    isPlaying.addListener(() {
+      player.stop();
     });
   }
 
@@ -119,6 +124,7 @@ class RemixPlayer {
 
   // Import sound to player and return it
   Future<AudioPlayer> setSound(Sound sound, AudioPlayer player) async {
+    await player.stop();
     await player.setSource(AssetSource(sound.name));
     await player.setVolume(sound.volume);
     await player.setBalance(sound.balance);
