@@ -81,15 +81,13 @@ class RemixPlayer {
   Future<void> _playSequential() async {
     assert(remix.mode == RemixModes.sequential);
 
-    while (isPlaying.value) {
-      players[0] = playSound(_nextSound);
-      var duration = await players.first.getDuration();
-      if (duration == null) {
-        throw ErrorHint(
-            "Error: _playSequential failed. Issue being duration of sound playing is null.");
-      }
-      await Future.delayed(duration);
-    }
+    // Listen to when sound completes
+    // Load to player next sound
+    // Self recursion without hurting the stack (Check)
+    AudioPlayer player = await playSound(_nextSound, playerList: players);
+    player.onPlayerComplete.listen((event) {
+      setSound(_nextSound, player).then((value) => player.resume());
+    });
   }
 
   Future<void> _playOverlay() async {
@@ -101,21 +99,29 @@ class RemixPlayer {
     while (isPlaying.value) {
       await Future.delayed(
           Duration(milliseconds: (_secondsTilNextSound * 1000).floor()),
-          () => players.add(playSound(_nextSound)));
+          () => playSound(_nextSound).then((value) => players.add(value)));
     }
   }
 
   // Create new player to play given sound
   // If playerList is present, add the player to the list
   // When the player finishes, it is removed from the list
-  AudioPlayer playSound(Sound sound, {List<AudioPlayer>? playerList}) {
-    AudioPlayer player = AudioPlayer();
-    player.play(AssetSource(sound.name),
-        volume: sound.volume, balance: sound.balance);
+  Future<AudioPlayer> playSound(Sound sound,
+      {List<AudioPlayer>? playerList}) async {
+    AudioPlayer player = await setSound(sound, AudioPlayer());
+    player.resume();
     if (playerList != null) {
       playerList.add(player);
       player.onPlayerComplete.listen((event) => playerList.remove(player));
     }
+    return player;
+  }
+
+  // Import sound to player and return it
+  Future<AudioPlayer> setSound(Sound sound, AudioPlayer player) async {
+    await player.setSource(AssetSource(sound.name));
+    await player.setVolume(sound.volume);
+    await player.setBalance(sound.balance);
     return player;
   }
 
