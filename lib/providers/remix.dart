@@ -79,7 +79,7 @@ class Remix with ChangeNotifier {
   }
 
   List<double> get fadeRange => [0, 3];
-  List<int> get soundsPerMinuteRange => [1, 60];
+  List<int> get soundsPerMinuteRange => [10, 120];
 
   Remix.fromJson(Map<String, dynamic> json)
       : name = json['name'],
