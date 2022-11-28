@@ -97,14 +97,16 @@ class RemixPlayer {
 
   Future<void> _playOverlay() async {
     assert(remix.mode == RemixModes.overlay);
-    List<AudioPlayer> players = [];
 
     playSound(_nextSound, playerList: players);
 
-    while (isPlaying.value) {
+    while (true) {
       await Future.delayed(
-          Duration(milliseconds: (_secondsTilNextSound * 1000).floor()),
-          () => playSound(_nextSound).then((value) => players.add(value)));
+          Duration(milliseconds: (_secondsTilNextSound * 1000).floor()), () {
+        if (isPlaying.value) {
+          playSound(_nextSound, playerList: players);
+        }
+      });
     }
   }
 
@@ -150,10 +152,9 @@ class RemixPlayer {
 
   double get _secondsTilNextSound {
     assert(remix.mode == RemixModes.overlay);
-    double mean = 60 / remix.soundsPerMinute;
-    // Generate using exponential distribution with mean = seconds / sound
-    // Function: y = - (1 / mu) * ln (x / mu), where mu is the mean and x is the random value
-    double generatedValue = -1 / mean * log(Random().nextDouble() / mean);
+    double rate = remix.soundsPerMinute / 60;
+    // Generate using exponential distribution
+    double generatedValue = -1 / rate * log(1 - Random().nextDouble());
 
     return generatedValue;
   }
