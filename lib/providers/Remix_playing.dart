@@ -92,14 +92,16 @@ class RemixPlayer {
 
   Future<void> _playOverlay() async {
     assert(remix.mode == RemixModes.overlay);
-    List<AudioPlayer> players = [];
 
     playSound(_nextSound, playerList: players);
 
-    while (isPlaying.value) {
+    while (true) {
       await Future.delayed(
-          Duration(milliseconds: (_secondsTilNextSound * 1000).floor()),
-          () => playSound(_nextSound).then((value) => players.add(value)));
+          Duration(milliseconds: (_secondsTilNextSound * 1000).floor()), () {
+        if (isPlaying.value) {
+          playSound(_nextSound, playerList: players);
+        }
+      });
     }
   }
 
