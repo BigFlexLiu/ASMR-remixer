@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:asmr_maker/providers/remix.dart';
@@ -85,8 +86,15 @@ class RemixPlayer {
     // Load to player next sound
     // Self recursion without hurting the stack (Check)
     AudioPlayer player = await playSound(_nextSound, playerList: players);
+    isPlaying.addListener(() => player.stop());
     player.onPlayerComplete.listen((event) {
-      setSound(_nextSound, player).then((value) => player.resume());
+      player.stop();
+      Sound sound = _nextSound;
+      setSound(sound, player).then((value) {
+        player.resume();
+
+        _addFade(sound, player);
+      });
     });
   }
 
@@ -116,6 +124,9 @@ class RemixPlayer {
       playerList.add(player);
       player.onPlayerComplete.listen((event) => playerList.remove(player));
     }
+    // Fade
+    _addFade(sound, player);
+
     return player;
   }
 
@@ -125,6 +136,52 @@ class RemixPlayer {
     await player.setVolume(sound.volume);
     await player.setBalance(sound.balance);
     return player;
+  }
+
+  void _addFade(Sound sound, AudioPlayer player) async {
+    if (remix.fade <= 0) {
+      return;
+    }
+    double maxVolume = sound.volume;
+    final playerDuration = await player.getDuration() as Duration;
+
+    // Fade for set time in remix or half of the sound duration, whichever is shorter
+    int fadeDuration =
+        min(remix.fadeAsMili, playerDuration.inMilliseconds ~/ 2);
+    Duration startFadeOutAfter =
+        playerDuration - Duration(milliseconds: fadeDuration);
+
+    // Fade in
+    _fade(0.0, maxVolume, player, fadeDuration, true);
+
+    Timer(startFadeOutAfter,
+        () => _fade(maxVolume, 0.0, player, fadeDuration, false));
+  }
+
+  // fadeDuration is in miliseconds
+  void _fade(double from, double to, AudioPlayer player, int fadeDuration,
+      bool isFadeIn) async {
+    const milisecPerStep = 40;
+    final numSteps = (fadeDuration / milisecPerStep).ceil();
+    final firstTick = DateTime.now().millisecondsSinceEpoch;
+    final lastTick = firstTick + fadeDuration;
+    double volumeIncrement = (to - from) / numSteps;
+    double currentVol = from;
+
+    // // Update the volume value on each interval ticks
+    Timer.periodic(const Duration(milliseconds: milisecPerStep), (Timer t) {
+      if (DateTime.now().millisecondsSinceEpoch >= lastTick) {
+        t.cancel();
+        if (isFadeIn) {
+          player.setVolume(1);
+        }
+        return;
+      }
+      currentVol = isFadeIn
+          ? min(currentVol + volumeIncrement, 1)
+          : max(currentVol + volumeIncrement, 0);
+      player.setVolume(currentVol);
+    });
   }
 
   // Get the smallest item in list >= value
@@ -145,7 +202,6 @@ class RemixPlayer {
   }
 
   double get _secondsTilNextSound {
-    assert(remix.mode == RemixModes.overlay);
     double rate = remix.soundsPerMinute / 60;
     // Generate using exponential distribution
     double generatedValue = -1 / rate * log(1 - Random().nextDouble());

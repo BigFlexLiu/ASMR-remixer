@@ -62,6 +62,7 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
+  int get fadeAsMili => fade * 1000 ~/ 1;
   double get fade => _fade;
   set fade(double value) {
     if (value < fadeRange[0]) {
