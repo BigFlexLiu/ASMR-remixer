@@ -47,6 +47,10 @@ class RemixPlayer {
   ValueNotifier<bool> isPlaying = ValueNotifier(false);
 
   RemixPlayer(this.remix) {
+    if (!remix.hasSound) {
+      return;
+    }
+
     totalFrequency = remix.sounds
         .fold(0, (previousValue, element) => element.frequency + previousValue);
     for (var sound in remix.sounds) {

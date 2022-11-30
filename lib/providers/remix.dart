@@ -81,6 +81,7 @@ class Remix with ChangeNotifier {
 
   List<double> get fadeRange => [0, 3];
   List<int> get soundsPerMinuteRange => [10, 120];
+  bool get hasSound => sounds.isNotEmpty;
 
   Remix.fromJson(Map<String, dynamic> json)
       : name = json['name'],
