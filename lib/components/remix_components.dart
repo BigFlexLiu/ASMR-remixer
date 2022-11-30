@@ -2,9 +2,7 @@ import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:asmr_maker/pages/sound_setting.dart';
 import 'package:asmr_maker/providers/Remix_playing.dart';
-import 'package:asmr_maker/providers/playing.dart';
 import 'package:asmr_maker/util/util.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -163,8 +161,14 @@ class RemixSettingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => RemixSettings(remix))),
+        onPressed: () {
+          if (Provider.of<RemixPlaying>(context, listen: false)
+              .contains(remix)) {
+            Provider.of<RemixPlaying>(context, listen: false).stop(remix);
+          }
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => RemixSettings(remix)));
+        },
         icon: const Icon(Icons.settings));
   }
 }
