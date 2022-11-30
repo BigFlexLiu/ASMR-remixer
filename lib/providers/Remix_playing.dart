@@ -132,6 +132,7 @@ class RemixPlayer {
 
   // Import sound to player and return it
   Future<AudioPlayer> setSound(Sound sound, AudioPlayer player) async {
+    await player.stop();
     await player.setSource(AssetSource(sound.name));
     await player.setVolume(sound.volume);
     await player.setBalance(sound.balance);
