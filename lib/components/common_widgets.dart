@@ -1,45 +1,54 @@
+import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/providers/playing.dart';
 import 'package:asmr_maker/util/util.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/favourites.dart';
-import '../providers/sound_file_name.dart';
+import '../providers/sound_clips.dart';
 
 class SoundList extends StatelessWidget {
   const SoundList({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-        children: Provider.of<SoundFileNames>(context).names.map((fileName) {
-      List favourites = context.watch<Favourites>().favouriteSounds;
-      String friendlyName = getSoundFriendlyName(fileName);
-      String sourceName = fileName.substring(7);
+    return Column(
+      children: [
+        SortBar(),
+        Expanded(
+          child: ListView(
+              children: Provider.of<SoundClips>(context).names.map((fileName) {
+            List favourites = context.watch<Favourites>().favouriteSounds;
+            String friendlyName = getSoundFriendlyName(fileName);
+            String sourceName = fileName.substring(7);
 
-      return Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                flex: 5,
-                child: Container(
-                  child: Text(
-                    friendlyName,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                  margin: EdgeInsets.all(8.0),
+            return Column(
+              children: [
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 5,
+                      child: Container(
+                        child: Text(
+                          friendlyName,
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                        margin: EdgeInsets.all(8.0),
+                      ),
+                    ),
+                    PlayButton(sourceName),
+                    FavouriteButton(favourites, friendlyName),
+                  ],
                 ),
-              ),
-              PlayButton(sourceName),
-              FavouriteButton(favourites, friendlyName),
-            ],
-          ),
-          CommonDivider()
-        ],
-      );
-    }).toList());
+                CommonDivider()
+              ],
+            );
+          }).toList()),
+        ),
+      ],
+    );
   }
 }
 
@@ -95,5 +104,52 @@ class FavouriteButton extends StatelessWidget {
         icon: Icon(favourites.contains(soundName)
             ? Icons.favorite
             : Icons.favorite_outline));
+  }
+}
+
+class SortBar extends StatelessWidget {
+  const SortBar({super.key});
+  final buttonPadding = 12.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final soundClips = Provider.of<SoundClips>(context, listen: true);
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      // Sort by favourite
+      Expanded(
+        child: Tooltip(
+          message: "Sort by favourite",
+          child: ElevatedButton(
+            onPressed: () {
+              soundClips.addSorting(SortBy.favourite);
+            },
+            child: Icon(Icons.favorite),
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(),
+                padding: EdgeInsets.all(buttonPadding),
+                foregroundColor: soundClips.sorting.contains(SortBy.favourite)
+                    ? Colors.black
+                    : null),
+          ),
+        ),
+      ),
+      // Reverse list
+      Expanded(
+        child: Tooltip(
+          message: "Sort by reverse",
+          child: ElevatedButton(
+            onPressed: () => soundClips.addSorting(SortBy.reverse),
+            child: Icon(FaIcon(FontAwesomeIcons.sort).icon),
+            style: ElevatedButton.styleFrom(
+                minimumSize: Size.zero,
+                shape: RoundedRectangleBorder(),
+                padding: EdgeInsets.all(buttonPadding),
+                foregroundColor: soundClips.sorting.contains(SortBy.reverse)
+                    ? Colors.black
+                    : null),
+          ),
+        ),
+      ),
+    ]);
   }
 }

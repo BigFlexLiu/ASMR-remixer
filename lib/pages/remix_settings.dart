@@ -84,6 +84,7 @@ class _RemixSettingsState extends State<RemixSettings> {
           ],
         ),
         body: Column(children: [
+          SortBar(),
           CommonDivider(),
           RemixModeButton(widget.remix, () {
             if (widget.mode == RemixModes.overlay) {

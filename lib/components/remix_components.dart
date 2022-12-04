@@ -10,7 +10,7 @@ import '../providers/favourites.dart';
 import '../providers/remix.dart';
 import '../providers/remixes.dart';
 import '../providers/sound.dart';
-import '../providers/sound_file_name.dart';
+import '../providers/sound_clips.dart';
 import 'common_widgets.dart';
 
 class RemixList extends StatelessWidget {
@@ -57,13 +57,11 @@ class _RemixSoundListState extends State<RemixSoundList> {
   @override
   Widget build(BuildContext context) {
     return ListView(
-        children: Provider.of<SoundFileNames>(context, listen: false)
-            .names
-            .map((fileName) {
+        children: Provider.of<SoundClips>(context).names.map((fileName) {
       List favourites = context.watch<Favourites>().favouriteSounds;
       String friendlyName = getSoundFriendlyName(fileName);
       String sourceName = fileName.substring(7);
-      bool isSoundInRemix = widget.remix.isSoundInRemix(sourceName);
+      bool isSoundInRemix = widget.remix.contains(sourceName);
 
       return Column(
         children: [
@@ -114,7 +112,7 @@ class _SoundAddButtonState extends State<SoundAddButton> {
           setState(() => {widget.remix.editSoundList(widget.soundName)});
           widget.changeIsSoundInRemix();
         },
-        icon: Icon(widget.remix.isSoundInRemix(widget.soundName)
+        icon: Icon(widget.remix.contains(widget.soundName)
             ? Icons.remove
             : Icons.add));
   }

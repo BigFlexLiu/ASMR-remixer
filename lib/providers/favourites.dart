@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../util/util.dart';
+
 class Favourites with ChangeNotifier {
   List<String> favouriteSounds = [];
   static const key = 'favouriteSounds';
@@ -23,6 +25,9 @@ class Favourites with ChangeNotifier {
     saveFavourites();
     notifyListeners();
   }
+
+  bool contains(String sound) =>
+      favouriteSounds.contains(getSoundFriendlyName(sound));
 
   Future<void> saveFavourites() async {
     final SharedPreferences prefs = await _prefs;
