@@ -17,12 +17,12 @@ class Remix with ChangeNotifier {
 
   Remix();
 
-  bool isSoundInRemix(String soundName) {
+  bool contains(String soundName) {
     return !sounds.every((element) => element.name != soundName);
   }
 
   Sound getSound(String soundName) {
-    assert(isSoundInRemix(soundName));
+    assert(contains(soundName));
     return sounds.firstWhere((element) => element.name == soundName);
   }
 
@@ -52,7 +52,6 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
-  int get soundsPerMinute => _soundsPerMinute;
   set soundsPerMinute(int value) {
     if (value < soundsPerMinuteRange[0]) {
       _soundsPerMinute = soundsPerMinuteRange[0];
@@ -62,8 +61,6 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
-  int get fadeAsMili => fade * 1000 ~/ 1;
-  double get fade => _fade;
   set fade(double value) {
     if (value < fadeRange[0]) {
       _fade = fadeRange[0];
@@ -73,12 +70,15 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
-  RemixModes get mode => _mode;
   set mode(RemixModes newMode) {
     _mode = newMode;
     notifyListeners();
   }
 
+  int get soundsPerMinute => _soundsPerMinute;
+  int get fadeAsMili => fade * 1000 ~/ 1;
+  double get fade => _fade;
+  RemixModes get mode => _mode;
   List<double> get fadeRange => [0, 3];
   List<int> get soundsPerMinuteRange => [10, 120];
   bool get hasSound => sounds.isNotEmpty;

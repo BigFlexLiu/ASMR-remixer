@@ -9,7 +9,7 @@ import 'package:asmr_maker/providers/playing.dart';
 import 'package:asmr_maker/providers/remix.dart';
 import 'package:asmr_maker/providers/remixes.dart';
 import 'package:asmr_maker/providers/sound.dart';
-import 'package:asmr_maker/providers/sound_file_name.dart';
+import 'package:asmr_maker/providers/sound_clips.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -24,13 +24,14 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    final favourites = Favourites();
+
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(
-            create: (_) => Favourites()), // Contains favourited sounds
-        FutureProvider(
-            create: (_) => fetchSounds(),
-            initialData: SoundFileNames([])), // For all the sound files
+            create: (_) => favourites), // Contains favourited sounds
+        ChangeNotifierProvider(
+            create: (_) => SoundClips(favourites)), // For ordering sound lists
         ChangeNotifierProvider(
             create: (_) =>
                 Remixes()), // Contains all the remixes the user created
@@ -88,12 +89,4 @@ class MainScreen extends StatelessWidget {
       return screens[position % screens.length];
     }));
   }
-}
-
-Future<SoundFileNames> fetchSounds() async {
-  var assets = await rootBundle.loadString('AssetManifest.json');
-  Map<String, dynamic> json = jsonDecode(assets);
-  List<String> sounds =
-      json.keys.where((element) => element.endsWith(".mp3")).toList();
-  return SoundFileNames(sounds);
 }

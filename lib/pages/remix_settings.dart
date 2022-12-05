@@ -1,4 +1,5 @@
 import 'package:asmr_maker/components/enum_def.dart';
+import 'package:asmr_maker/providers/sound_clips.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -84,6 +85,7 @@ class _RemixSettingsState extends State<RemixSettings> {
           ],
         ),
         body: Column(children: [
+          SortBar(),
           CommonDivider(),
           RemixModeButton(widget.remix, () {
             if (widget.mode == RemixModes.overlay) {
