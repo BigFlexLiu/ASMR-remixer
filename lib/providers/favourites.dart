@@ -9,11 +9,8 @@ class Favourites with ChangeNotifier {
 
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
-  void initState() {
-    _prefs.then((prefs) {
-      favouriteSounds = prefs.getStringList(key) ?? [];
-      notifyListeners();
-    });
+  Favourites() {
+    readFavourites();
   }
 
   void changeFavourite(String name) {
@@ -23,7 +20,6 @@ class Favourites with ChangeNotifier {
     } else {
       favouriteSounds.add(nameSimplified);
     }
-    print(favouriteSounds);
     saveFavourites();
     notifyListeners();
   }
@@ -34,5 +30,11 @@ class Favourites with ChangeNotifier {
   Future<void> saveFavourites() async {
     final SharedPreferences prefs = await _prefs;
     prefs.setStringList("favouriteSounds", favouriteSounds);
+  }
+
+  Future<void> readFavourites() async {
+    final SharedPreferences prefs = await _prefs;
+    favouriteSounds = prefs.getStringList("favouriteSounds") ?? [];
+    notifyListeners();
   }
 }
