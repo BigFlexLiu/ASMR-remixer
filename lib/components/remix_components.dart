@@ -24,6 +24,7 @@ class RemixList extends StatelessWidget {
         children: [
           Row(
             children: [
+              DeleteRemixButton(remix),
               Expanded(
                 flex: 5,
                 child: Container(
@@ -45,6 +46,36 @@ class RemixList extends StatelessWidget {
   }
 }
 
+class DeleteRemixButton extends StatelessWidget {
+  DeleteRemixButton(this.remix, {super.key});
+  Remix remix;
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        onPressed: () => showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text("Delete ${remix.name}?"),
+                content: Text("There is no undo button after deletion!"),
+                actions: [
+                  TextButton(
+                      child: Text("Yes"),
+                      onPressed: () {
+                        context.read<Remixes>().removeRemix(remix);
+                        Navigator.of(context).pop();
+                      }),
+                  TextButton(
+                      child: Text("No"),
+                      onPressed: () => Navigator.of(context).pop())
+                ],
+              );
+            }),
+        icon: const Icon(Icons.delete));
+  }
+}
+
 class RemixSoundList extends StatefulWidget {
   RemixSoundList(this.remix, {super.key});
   Remix remix;
@@ -56,7 +87,6 @@ class RemixSoundList extends StatefulWidget {
 class _RemixSoundListState extends State<RemixSoundList> {
   @override
   Widget build(BuildContext context) {
-    List<String> favourites = Provider.of<Favourites>(context).favouriteSounds;
     return ListView(
         children: Provider.of<SoundClips>(context).names.map((fileName) {
       String friendlyName = getSoundFriendlyName(fileName);
@@ -78,10 +108,10 @@ class _RemixSoundListState extends State<RemixSoundList> {
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
-              PlayButton(fileName),
-              FavouriteButton(fileName),
               if (isSoundInRemix)
                 SoundSettingButton(widget.remix.getSound(fileName)),
+              PlayButton(fileName),
+              FavouriteButton(fileName),
             ],
           ),
           CommonDivider()
