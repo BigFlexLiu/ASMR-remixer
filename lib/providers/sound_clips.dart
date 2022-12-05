@@ -23,6 +23,11 @@ class SoundClips extends ChangeNotifier {
       _names = _unsortedNames.sublist(0);
       notifyListeners();
     });
+    favourites.addListener(() {
+      if (_sorting.contains(SortBy.favourite)) {
+        _sort();
+      }
+    });
   }
 
   Future<List<String>> _fetchSounds() async {
