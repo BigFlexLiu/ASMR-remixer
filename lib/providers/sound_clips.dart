@@ -16,8 +16,11 @@ class SoundClips extends ChangeNotifier {
 
   SoundClips(this.favourites) {
     _fetchSounds().then((value) {
-      _unsortedNames = value;
-      _names = value.sublist(0);
+      // Remove "Asset/" from the name
+      for (var element in value) {
+        _unsortedNames.add(element.substring(7));
+      }
+      _names = _unsortedNames.sublist(0);
       notifyListeners();
     });
   }
@@ -73,9 +76,11 @@ class SoundClips extends ChangeNotifier {
 
   List<String> get names => _names;
   List<SortBy> get sorting => _sorting;
+  bool get hasRemix => _remix != null;
 
   set remix(Remix? newRemix) {
     _remix = newRemix;
+    _sort();
     notifyListeners();
   }
 }

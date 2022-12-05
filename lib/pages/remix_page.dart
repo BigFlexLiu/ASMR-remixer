@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../components/remix_components.dart';
 import '../providers/remix.dart';
 import '../providers/remixes.dart';
+import '../providers/sound_clips.dart';
 
 class RemixPage extends StatefulWidget {
   RemixPage({super.key});
@@ -16,10 +17,11 @@ class RemixPage extends StatefulWidget {
 
 class _RemixPageState extends State<RemixPage> {
   String newRemixName = "";
+  late BuildContext bottomContext;
 
   @override
   Widget build(BuildContext context) {
-    Remixes remixes = Provider.of<Remixes>(context);
+    bottomContext = context;
     return Scaffold(
       appBar: AppBar(
         title: Text('Remixes'),
@@ -55,12 +57,17 @@ class _RemixPageState extends State<RemixPage> {
                             onPressed: () {
                               Remix newRemix = Remix()..name = newRemixName;
                               Navigator.pop(context, 'OK');
-                              remixes.addRemix(newRemix);
+                              context.read<Remixes>().addRemix(newRemix);
+                              context.read<SoundClips>().remix = newRemix;
+
                               Navigator.push(
-                                  context,
+                                  bottomContext,
                                   MaterialPageRoute(
                                       builder: (context) =>
-                                          RemixSettings(newRemix)));
+                                          RemixSettings(newRemix))).then(
+                                  (value) => bottomContext
+                                      .read<SoundClips>()
+                                      .remix = null);
                             },
                             child: const Text('Done'),
                           ),

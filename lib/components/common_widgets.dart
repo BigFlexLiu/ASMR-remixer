@@ -20,9 +20,7 @@ class SoundList extends StatelessWidget {
         Expanded(
           child: ListView(
               children: Provider.of<SoundClips>(context).names.map((fileName) {
-            List favourites = context.watch<Favourites>().favouriteSounds;
             String friendlyName = getSoundFriendlyName(fileName);
-            String sourceName = fileName.substring(7);
 
             return Column(
               children: [
@@ -38,8 +36,8 @@ class SoundList extends StatelessWidget {
                         margin: EdgeInsets.all(8.0),
                       ),
                     ),
-                    PlayButton(sourceName),
-                    FavouriteButton(favourites, friendlyName),
+                    PlayButton(fileName),
+                    FavouriteButton(friendlyName),
                   ],
                 ),
                 CommonDivider()
@@ -93,15 +91,14 @@ class PlayButton extends StatelessWidget {
 }
 
 class FavouriteButton extends StatelessWidget {
-  FavouriteButton(this.favourites, this.soundName, {super.key});
+  FavouriteButton(this.soundName, {super.key});
   String soundName;
-  List favourites;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () => context.read<Favourites>().changeFavourite(soundName),
-        icon: Icon(favourites.contains(soundName)
+        icon: Icon(context.read<Favourites>().contains(soundName)
             ? Icons.favorite
             : Icons.favorite_outline));
   }
@@ -115,6 +112,25 @@ class SortBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final soundClips = Provider.of<SoundClips>(context, listen: true);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      // Sort by added
+      if (context.watch<SoundClips>().hasRemix)
+        Expanded(
+          child: Tooltip(
+            message: "Sort by added",
+            child: ElevatedButton(
+              onPressed: () {
+                soundClips.addSorting(SortBy.added);
+              },
+              child: Icon(Icons.add),
+              style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(),
+                  padding: EdgeInsets.all(buttonPadding),
+                  foregroundColor: soundClips.sorting.contains(SortBy.added)
+                      ? Colors.black
+                      : null),
+            ),
+          ),
+        ),
       // Sort by favourite
       Expanded(
         child: Tooltip(

@@ -17,11 +17,13 @@ class Favourites with ChangeNotifier {
   }
 
   void changeFavourite(String name) {
-    if (favouriteSounds.contains(name)) {
-      favouriteSounds.remove(name);
+    String nameSimplified = getSoundFriendlyName(name);
+    if (favouriteSounds.contains(nameSimplified)) {
+      favouriteSounds.remove(nameSimplified);
     } else {
-      favouriteSounds.add(name);
+      favouriteSounds.add(nameSimplified);
     }
+    print(favouriteSounds);
     saveFavourites();
     notifyListeners();
   }

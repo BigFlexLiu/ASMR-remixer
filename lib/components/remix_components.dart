@@ -56,18 +56,17 @@ class RemixSoundList extends StatefulWidget {
 class _RemixSoundListState extends State<RemixSoundList> {
   @override
   Widget build(BuildContext context) {
+    List<String> favourites = Provider.of<Favourites>(context).favouriteSounds;
     return ListView(
         children: Provider.of<SoundClips>(context).names.map((fileName) {
-      List favourites = context.watch<Favourites>().favouriteSounds;
       String friendlyName = getSoundFriendlyName(fileName);
-      String sourceName = fileName.substring(7);
-      bool isSoundInRemix = widget.remix.contains(sourceName);
+      bool isSoundInRemix = widget.remix.contains(fileName);
 
       return Column(
         children: [
           Row(
             children: [
-              SoundAddButton(widget.remix, sourceName,
+              SoundAddButton(widget.remix, fileName,
                   () => setState(() => isSoundInRemix = !isSoundInRemix)),
               Expanded(
                 flex: 5,
@@ -79,10 +78,10 @@ class _RemixSoundListState extends State<RemixSoundList> {
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
-              PlayButton(sourceName),
-              FavouriteButton(favourites, sourceName),
+              PlayButton(fileName),
+              FavouriteButton(fileName),
               if (isSoundInRemix)
-                SoundSettingButton(widget.remix.getSound(sourceName)),
+                SoundSettingButton(widget.remix.getSound(fileName)),
             ],
           ),
           CommonDivider()
@@ -164,8 +163,10 @@ class RemixSettingButton extends StatelessWidget {
               .contains(remix)) {
             Provider.of<RemixPlaying>(context, listen: false).stop(remix);
           }
+          context.read<SoundClips>().remix = remix;
           Navigator.push(context,
-              MaterialPageRoute(builder: (context) => RemixSettings(remix)));
+                  MaterialPageRoute(builder: (context) => RemixSettings(remix)))
+              .then((value) => context.read<SoundClips>().remix = null);
         },
         icon: const Icon(Icons.settings));
   }
