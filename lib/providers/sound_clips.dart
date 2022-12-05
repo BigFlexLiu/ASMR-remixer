@@ -35,32 +35,24 @@ class SoundClips extends ChangeNotifier {
 
   void _sort() {
     _names = _unsortedNames.sublist(0);
-    for (var sort in _sorting) {
-      switch (sort) {
-        case SortBy.added:
-          if (_remix == null) {
-            break;
-          }
-          _names.sort(((a, b) {
-            if (_remix!.contains(a) == _remix!.contains(b)) {
-              return 0;
-            }
-            return _remix!.contains(a) ? -1 : 1;
-          }));
-          break;
-        case SortBy.favourite:
-          _names.sort((a, b) {
-            if (favourites.contains(a) == favourites.contains(b)) {
-              return 0;
-            }
-            return favourites.contains(a) ? -1 : 1;
-          });
-          break;
-        case SortBy.reverse:
-          _names = _names.reversed.toList();
-          break;
-        default:
-      }
+    if (_sorting.contains(SortBy.favourite)) {
+      _names.sort((a, b) {
+        if (favourites.contains(a) == favourites.contains(b)) {
+          return 0;
+        }
+        return favourites.contains(a) ? -1 : 1;
+      });
+    }
+    if (_sorting.contains(SortBy.added) && _remix != null) {
+      _names.sort(((a, b) {
+        if (_remix!.contains(a) == _remix!.contains(b)) {
+          return 0;
+        }
+        return _remix!.contains(a) ? -1 : 1;
+      }));
+    }
+    if (_sorting.contains(SortBy.reverse)) {
+      _names = _names.reversed.toList();
     }
     notifyListeners();
   }

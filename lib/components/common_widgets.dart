@@ -112,6 +112,24 @@ class SortBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final soundClips = Provider.of<SoundClips>(context, listen: true);
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      // Sort by favourite
+      Expanded(
+        child: Tooltip(
+          message: "Sort by favourite",
+          child: ElevatedButton(
+            onPressed: () {
+              soundClips.addSorting(SortBy.favourite);
+            },
+            child: Icon(Icons.favorite),
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(),
+                padding: EdgeInsets.all(buttonPadding),
+                foregroundColor: soundClips.sorting.contains(SortBy.favourite)
+                    ? Colors.black
+                    : null),
+          ),
+        ),
+      ),
       // Sort by added
       if (context.watch<SoundClips>().hasRemix)
         Expanded(
@@ -131,24 +149,6 @@ class SortBar extends StatelessWidget {
             ),
           ),
         ),
-      // Sort by favourite
-      Expanded(
-        child: Tooltip(
-          message: "Sort by favourite",
-          child: ElevatedButton(
-            onPressed: () {
-              soundClips.addSorting(SortBy.favourite);
-            },
-            child: Icon(Icons.favorite),
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(buttonPadding),
-                foregroundColor: soundClips.sorting.contains(SortBy.favourite)
-                    ? Colors.black
-                    : null),
-          ),
-        ),
-      ),
       // Reverse list
       Expanded(
         child: Tooltip(
