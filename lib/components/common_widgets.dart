@@ -3,7 +3,6 @@ import 'package:asmr_maker/providers/playing.dart';
 import 'package:asmr_maker/util/util.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/favourites.dart';
@@ -116,17 +115,13 @@ class SortBar extends StatelessWidget {
       Expanded(
         child: Tooltip(
           message: "Sort by favourite",
-          child: ElevatedButton(
+          child: OutlinedButton(
             onPressed: () {
               soundClips.addSorting(SortBy.favourite);
             },
-            child: Icon(Icons.favorite),
-            style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(buttonPadding),
-                foregroundColor: soundClips.sorting.contains(SortBy.favourite)
-                    ? Colors.black
-                    : null),
+            child: Icon(soundClips.sorting.contains(SortBy.favourite)
+                ? Icons.favorite
+                : Icons.favorite_border),
           ),
         ),
       ),
@@ -135,35 +130,28 @@ class SortBar extends StatelessWidget {
         Expanded(
           child: Tooltip(
             message: "Sort by added",
-            child: ElevatedButton(
+            child: OutlinedButton(
               onPressed: () {
                 soundClips.addSorting(SortBy.added);
               },
-              child: Icon(Icons.add),
-              style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(),
-                  padding: EdgeInsets.all(buttonPadding),
-                  foregroundColor: soundClips.sorting.contains(SortBy.added)
-                      ? Colors.black
-                      : null),
+              child: Icon(soundClips.sorting.contains(SortBy.added)
+                  ? Icons.add_circle
+                  : Icons.add_circle_outline),
             ),
           ),
         ),
       // Reverse list
       Expanded(
         child: Tooltip(
-          message: "Sort by reverse",
-          child: ElevatedButton(
-            onPressed: () => soundClips.addSorting(SortBy.reverse),
-            child: Icon(FaIcon(FontAwesomeIcons.sort).icon),
-            style: ElevatedButton.styleFrom(
-                minimumSize: Size.zero,
-                shape: RoundedRectangleBorder(),
-                padding: EdgeInsets.all(buttonPadding),
-                foregroundColor: soundClips.sorting.contains(SortBy.reverse)
-                    ? Colors.black
-                    : null),
-          ),
+          message: "Reverse",
+          child: OutlinedButton(
+              onPressed: () => soundClips.addSorting(SortBy.reverse),
+              // child: Icon(soundClips.sorting.contains(SortBy.reverse)
+              //     ? FaIcon(FontAwesomeIcons.sortUp).icon
+              //     : FaIcon(FontAwesomeIcons.sortDown).icon),
+              child: Icon(soundClips.sorting.contains(SortBy.reverse)
+                  ? Icons.arrow_upward
+                  : Icons.arrow_downward)),
         ),
       ),
     ]);

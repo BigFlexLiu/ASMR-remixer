@@ -10,6 +10,7 @@ import 'package:asmr_maker/providers/remix.dart';
 import 'package:asmr_maker/providers/remixes.dart';
 import 'package:asmr_maker/providers/sound.dart';
 import 'package:asmr_maker/providers/sound_clips.dart';
+import 'package:asmr_maker/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
@@ -49,33 +50,24 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             primarySwatch: Colors.blue,
             textTheme: const TextTheme(
-                titleLarge: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 24.0,
-                    color: Colors.black),
-                titleMedium: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20.0,
-                    color: Colors.black),
-                titleSmall: TextStyle(
+              titleLarge: TextStyle(
                   fontWeight: FontWeight.bold,
-                  fontSize: 16.0,
-                  color: Colors.black,
-                ),
-                bodyMedium: TextStyle(
-                  fontSize: 16.0,
-                  color: Colors.black,
-                ))),
-        home: HorizontalSwipeScreen(),
+                  fontSize: 20.0,
+                  color: Colors.black),
+              titleMedium: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.0,
+                  color: Colors.black),
+              titleSmall: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16.0,
+                color: Colors.black,
+              ),
+            )),
+        darkTheme: darkTheme,
+        home: MainScreen(),
       ),
     );
-  }
-}
-
-class HorizontalSwipeScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(title: 'ASMR Remixer', home: MainScreen());
   }
 }
 

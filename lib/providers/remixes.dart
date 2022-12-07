@@ -44,17 +44,17 @@ class Remixes with ChangeNotifier {
   }
 
   Future<void> _getStoredData() async {
-    print("Reading");
+    // print("Reading");
     try {
       final file = await _getStorageFile();
       final fileExists = await file.exists();
       if (fileExists) {
         final content = await file.readAsString();
-        print(content);
+        // print(content);
         _remixes = Remixes.fromJson(json.decode(content)).remixes;
         listenToRemixes();
         notifyListeners();
-        print("Read");
+        // print("Read");
       }
     } catch (e) {
       print("Read failed");
