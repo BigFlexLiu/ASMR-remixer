@@ -11,7 +11,7 @@ class Remix with ChangeNotifier {
   String name = "unnamed";
   // Only works with mode = RemixModes.overlay
   // Number of sounds played per minute
-  int _soundsPerMinute = 10;
+  int _soundsPerMinute = 30;
   // Number of seconds to fade the begining and end of each sound
   double _fade = 1;
 

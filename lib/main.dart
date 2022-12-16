@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:asmr_maker/pages/collection_page.dart';
 import 'package:asmr_maker/pages/favourite_page.dart';
 import 'package:asmr_maker/pages/remix_page.dart';
+import 'package:asmr_maker/pages/settings_page.dart';
 import 'package:asmr_maker/providers/Remix_playing.dart';
 import 'package:asmr_maker/providers/favourites.dart';
 import 'package:asmr_maker/providers/playing.dart';
 import 'package:asmr_maker/providers/remix.dart';
 import 'package:asmr_maker/providers/remixes.dart';
+import 'package:asmr_maker/providers/settings.dart';
 import 'package:asmr_maker/providers/sound.dart';
 import 'package:asmr_maker/providers/sound_clips.dart';
 import 'package:asmr_maker/theme.dart';
@@ -27,46 +29,57 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final favourites = Favourites();
 
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-            create: (_) => favourites), // Contains favourited sounds
-        ChangeNotifierProvider(
-            create: (_) => SoundClips(favourites)), // For ordering sound lists
-        ChangeNotifierProvider(
-            create: (_) =>
-                Remixes()), // Contains all the remixes the user created
-        ChangeNotifierProvider(
-          // Contains all the sounds that are currently playing
-          create: (_) => Playing(),
-        ),
-        ChangeNotifierProvider(
-          // Contains all the remixes that are currently playing
-          create: (_) => RemixPlaying(),
-        ),
-      ],
-      child: MaterialApp(
-        title: 'ASMR Remixer',
-        theme: ThemeData(
-            primarySwatch: Colors.blue,
-            textTheme: const TextTheme(
-              titleLarge: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20.0,
-                  color: Colors.black),
-              titleMedium: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.0,
-                  color: Colors.black),
-              titleSmall: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 16.0,
-                color: Colors.black,
-              ),
-            )),
-        darkTheme: darkTheme,
-        home: MainScreen(),
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(
+          create: (_) => favourites), // Contains favourited sounds
+      ChangeNotifierProvider(
+          create: (_) => SoundClips(favourites)), // For ordering sound lists
+      ChangeNotifierProvider(
+          create: (_) =>
+              Remixes()), // Contains all the remixes the user created
+      ChangeNotifierProvider(
+        // Contains all the sounds that are currently playing
+        create: (_) => Playing(),
       ),
+      ChangeNotifierProvider(
+        // Contains all the remixes that are currently playing
+        create: (_) => RemixPlaying(),
+      ),
+      ChangeNotifierProvider(
+        // Contains all the remixes that are currently playing
+        create: (_) => Settings(),
+      ),
+    ], child: ThemeWraper());
+  }
+}
+
+class ThemeWraper extends StatelessWidget {
+  const ThemeWraper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ASMR Remixer',
+      theme: ThemeData(
+          primarySwatch: Colors.blue,
+          textTheme: const TextTheme(
+            titleLarge: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 20.0,
+                color: Colors.black),
+            titleMedium: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18.0,
+                color: Colors.black),
+            titleSmall: TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 16.0,
+              color: Colors.black,
+            ),
+          )),
+      darkTheme: darkTheme,
+      themeMode: context.watch<Settings>().theme,
+      home: MainScreen(),
     );
   }
 }
@@ -74,7 +87,7 @@ class MyApp extends StatelessWidget {
 /// This is the stateless widget that the main application instantiates.
 class MainScreen extends StatelessWidget {
   final controller = PageController(initialPage: 0);
-  final screens = <Widget>[CollectionPage(), RemixPage()];
+  final screens = <Widget>[CollectionPage(), RemixPage(), SettingsPage()];
   @override
   Widget build(BuildContext context) {
     return Center(child: PageView.builder(itemBuilder: (context, position) {

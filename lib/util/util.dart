@@ -18,5 +18,9 @@ Future<List<String>> fetchSounds() async {
   return sounds;
 }
 
-String getSoundFriendlyName(String sourceFile) =>
-    sourceFile.split('/').last.replaceAll('_', " ").replaceAll(".mp3", "");
+String getSoundFriendlyName(String sourceFile) => sourceFile
+    .split('/')
+    .last
+    .replaceAll('_', " ")
+    .replaceAll("%20", " ")
+    .replaceAll(".mp3", "");
