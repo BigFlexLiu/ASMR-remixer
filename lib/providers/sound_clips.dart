@@ -62,6 +62,13 @@ class SoundClips extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Calls sort if sortings include type
+  void sortIfType(SortBy type) {
+    if (_sorting.contains(type)) {
+      _sort();
+    }
+  }
+
   void addSorting(SortBy sortby) {
     if (sorting.contains(sortby)) {
       sorting.remove(sortby);

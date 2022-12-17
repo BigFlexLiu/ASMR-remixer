@@ -35,7 +35,7 @@ class RemixList extends StatelessWidget {
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
-              PlayRemixButton(remix),
+              if (remix.hasSound) PlayRemixButton(remix),
               RemixSettingButton(remix),
             ],
           ),
@@ -140,6 +140,7 @@ class _SoundAddButtonState extends State<SoundAddButton> {
         onPressed: () {
           setState(() => {widget.remix.editSoundList(widget.soundName)});
           widget.changeIsSoundInRemix();
+          context.read<SoundClips>().sortIfType(SortBy.added);
         },
         icon: Icon(widget.remix.contains(widget.soundName)
             ? Icons.remove
