@@ -1,23 +1,38 @@
 import 'package:asmr_maker/providers/remix.dart';
+import 'package:asmr_maker/util/util.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class Playing extends ChangeNotifier {
-  List<String> _soundsPlaying = []; // Name of sounds currently playing
+  Map<String, AudioPlayer> _soundsPlaying = Map();
   List<Remix> _remixesPlaying = [];
 
-  bool isSoundPlaying(String name) {
-    return _soundsPlaying.contains(name);
+  bool isSoundPlaying(String sourceName) {
+    return _soundsPlaying.containsKey(sourceName);
   }
 
-  void changeSoundsPlaying(String name) {
-    if (isSoundPlaying(name)) {
-      _soundsPlaying.remove(name);
-    } else {
-      _soundsPlaying.add(name);
+  // Play sound if not playing
+  // Stop sound then play from start if already playing
+  void playSound(String sourceName) {
+    // Sound is already playing
+    if (_soundsPlaying.containsKey(sourceName)) {
+      _soundsPlaying[sourceName]!.stop();
+      _soundsPlaying[sourceName]!.resume();
+      notifyListeners();
+      return;
     }
+    // Sound is not already playing
+    AudioPlayer player = AudioPlayer();
+    player.play(AssetSource(sourceName));
+    _soundsPlaying[sourceName] = player;
+    // Delete from map of sounds playing when done
+    player.onPlayerComplete.listen((event) {
+      _soundsPlaying.remove(sourceName);
+      notifyListeners();
+    });
     notifyListeners();
   }
 
-  get soundsPlaying => _soundsPlaying;
+  get soundsPlaying => _soundsPlaying.keys;
   get remixesPlaying => remixesPlaying;
 }

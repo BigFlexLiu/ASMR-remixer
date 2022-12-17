@@ -65,25 +65,11 @@ class PlayButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final friendlyName = getSoundFriendlyName(sourceName);
     return IconButton(
         onPressed: () {
-          if (context.read<Playing>().isSoundPlaying(friendlyName)) {
-            player.stop();
-            context.read<Playing>().changeSoundsPlaying(friendlyName);
-          } else {
-            player.play(AssetSource(sourceName));
-            context.read<Playing>().changeSoundsPlaying(friendlyName);
-
-            // Remove from playing when audio ends
-            player.onPlayerComplete.listen((event) {
-              if (context.read<Playing>().isSoundPlaying(friendlyName)) {
-                context.read<Playing>().changeSoundsPlaying(friendlyName);
-              }
-            });
-          }
+          context.read<Playing>().playSound(sourceName);
         },
-        icon: Icon(context.watch<Playing>().isSoundPlaying(friendlyName)
+        icon: Icon(context.watch<Playing>().isSoundPlaying(sourceName)
             ? Icons.stop
             : Icons.play_arrow));
   }
