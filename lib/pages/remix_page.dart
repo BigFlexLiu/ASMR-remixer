@@ -33,10 +33,9 @@ class _RemixPageState extends State<RemixPage> {
                     showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('Give your remix a name'),
+                        title: const Text('Name your remix'),
                         content: TextField(
-                          decoration: InputDecoration(
-                              labelText: newRemixName, hintText: 'unnamed'),
+                          decoration: InputDecoration(hintText: 'unnamed'),
                           onChanged: (value) {
                             setState(() {
                               newRemixName = value;
@@ -68,6 +67,10 @@ class _RemixPageState extends State<RemixPage> {
                                   (value) => bottomContext
                                       .read<SoundClips>()
                                       .remix = null);
+
+                              setState(() {
+                                newRemixName = "";
+                              });
                             },
                             child: const Text('Done'),
                           ),
