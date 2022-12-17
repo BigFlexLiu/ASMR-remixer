@@ -35,7 +35,7 @@ class RemixList extends StatelessWidget {
                   margin: EdgeInsets.all(8.0),
                 ),
               ),
-              PlayRemixButton(remix),
+              if (remix.hasSound) PlayRemixButton(remix),
               RemixSettingButton(remix),
             ],
           ),
