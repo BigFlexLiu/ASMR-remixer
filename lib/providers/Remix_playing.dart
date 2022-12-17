@@ -15,9 +15,11 @@ class RemixPlaying extends ChangeNotifier {
 
   void play(Remix remix) {
     assert(!contains(remix));
-    RemixPlayer player = RemixPlayer(remix);
-    _remixPlayers.add(player);
-    notifyListeners();
+    if (remix.hasSound) {
+      RemixPlayer player = RemixPlayer(remix);
+      _remixPlayers.add(player);
+      notifyListeners();
+    }
   }
 
   void stop(Remix remix) {
