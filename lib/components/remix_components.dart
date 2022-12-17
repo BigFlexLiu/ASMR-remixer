@@ -140,6 +140,7 @@ class _SoundAddButtonState extends State<SoundAddButton> {
         onPressed: () {
           setState(() => {widget.remix.editSoundList(widget.soundName)});
           widget.changeIsSoundInRemix();
+          context.read<SoundClips>().sortIfType(SortBy.added);
         },
         icon: Icon(widget.remix.contains(widget.soundName)
             ? Icons.remove

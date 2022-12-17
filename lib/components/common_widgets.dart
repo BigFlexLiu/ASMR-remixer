@@ -82,7 +82,10 @@ class FavouriteButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () => context.read<Favourites>().changeFavourite(soundName),
+        onPressed: () {
+          context.read<Favourites>().changeFavourite(soundName);
+          context.read<SoundClips>().sortIfType(SortBy.favourite);
+        },
         icon: Icon(context.watch<Favourites>().contains(soundName)
             ? Icons.favorite
             : Icons.favorite_outline));
