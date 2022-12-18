@@ -9,8 +9,8 @@ import 'favourites.dart';
 
 class SoundClips extends ChangeNotifier {
   List<String> _names = [];
-  List<String> _unsortedNames = [];
-  List<SortBy> _sorting = [];
+  final List<String> _unsortedNames = [];
+  final List<SortBy> _sorting = [];
   Remix? _remix;
   Favourites favourites;
 

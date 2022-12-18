@@ -1,9 +1,8 @@
 import 'package:asmr_maker/components/common_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class CollectionPage extends StatefulWidget {
-  CollectionPage({super.key});
+  const CollectionPage({super.key});
 
   @override
   State<CollectionPage> createState() => _CollectionPageState();
@@ -17,9 +16,9 @@ class _CollectionPageState extends State<CollectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Collections'),
+        title: const Text('Collections'),
       ),
-      body: SoundList(),
+      body: const SoundList(),
     );
   }
 }

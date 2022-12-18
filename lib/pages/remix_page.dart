@@ -1,4 +1,3 @@
-import 'package:asmr_maker/components/common_widgets.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import '../providers/remixes.dart';
 import '../providers/sound_clips.dart';
 
 class RemixPage extends StatefulWidget {
-  RemixPage({super.key});
+  const RemixPage({super.key});
 
   @override
   State<RemixPage> createState() => _RemixPageState();
@@ -24,7 +23,7 @@ class _RemixPageState extends State<RemixPage> {
     bottomContext = context;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Remixes'),
+        title: const Text('Remixes'),
         actions: [
           IconButton(
               icon: const Icon(Icons.add),
@@ -35,7 +34,8 @@ class _RemixPageState extends State<RemixPage> {
                       builder: (context) => AlertDialog(
                         title: const Text('Name your remix'),
                         content: TextField(
-                          decoration: InputDecoration(hintText: 'unnamed'),
+                          decoration:
+                              const InputDecoration(hintText: 'unnamed'),
                           onChanged: (value) {
                             setState(() {
                               newRemixName = value;

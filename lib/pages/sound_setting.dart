@@ -19,11 +19,14 @@ class _SoundSettingState extends State<SoundSetting> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Sound setting")),
+      appBar: AppBar(title: const Text("Sound setting")),
       body: Column(children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text("Volume"), Text(widget.volume.toStringAsFixed(2))],
+          children: [
+            const Text("Volume"),
+            Text(widget.volume.toStringAsFixed(2))
+          ],
         ),
         Slider(
           value: widget.volume,
@@ -35,7 +38,7 @@ class _SoundSettingState extends State<SoundSetting> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text("Frequency"),
+            const Text("Frequency"),
             Text(widget.frequency.toStringAsFixed(2))
           ],
         ),
@@ -48,7 +51,10 @@ class _SoundSettingState extends State<SoundSetting> {
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Text("Balance"), Text(widget.balance.toStringAsFixed(2))],
+          children: [
+            const Text("Balance"),
+            Text(widget.balance.toStringAsFixed(2))
+          ],
         ),
         Slider(
           value: widget.balance,
@@ -57,7 +63,8 @@ class _SoundSettingState extends State<SoundSetting> {
           min: widget.sound.balanceRange[0],
           max: widget.sound.balanceRange[1],
         ),
-        TextButton(onPressed: () => widget.sound.reset(), child: Text("Reset"))
+        TextButton(
+            onPressed: () => widget.sound.reset(), child: const Text("Reset"))
       ]),
     );
   }

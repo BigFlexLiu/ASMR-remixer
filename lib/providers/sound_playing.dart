@@ -1,11 +1,8 @@
-import 'package:asmr_maker/providers/remix.dart';
-import 'package:asmr_maker/util/util.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
-class Playing extends ChangeNotifier {
-  Map<String, AudioPlayer> _soundsPlaying = Map();
-  List<Remix> _remixesPlaying = [];
+class SoundsPlaying extends ChangeNotifier {
+  final Map<String, AudioPlayer> _soundsPlaying = {};
 
   bool isSoundPlaying(String sourceName) {
     return _soundsPlaying.containsKey(sourceName);
@@ -34,5 +31,4 @@ class Playing extends ChangeNotifier {
   }
 
   get soundsPlaying => _soundsPlaying.keys;
-  get remixesPlaying => remixesPlaying;
 }

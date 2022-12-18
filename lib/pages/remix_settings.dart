@@ -1,6 +1,4 @@
 import 'package:asmr_maker/components/enum_def.dart';
-import 'package:asmr_maker/providers/sound_clips.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -10,14 +8,8 @@ import '../providers/remix.dart';
 import '../providers/remixes.dart';
 
 class RemixSettings extends StatefulWidget {
-  RemixSettings(this.remix, {super.key})
-      : fade = remix.fade,
-        soundsPerMinute = remix.soundsPerMinute,
-        mode = remix.mode;
-  Remix remix;
-  double fade;
-  int soundsPerMinute;
-  RemixModes mode;
+  const RemixSettings(this.remix, {super.key});
+  final Remix remix;
 
   @override
   State<RemixSettings> createState() => _RemixSettingsState();
@@ -26,12 +18,18 @@ class RemixSettings extends StatefulWidget {
 class _RemixSettingsState extends State<RemixSettings> {
   String newRemixName = 'unnamed';
   final remixOptions = RemixModes.values;
+  late double fade;
+  late int soundsPerMinute;
+  late RemixModes mode;
 
   bool overlay = false;
 
   @override
   void initState() {
     super.initState();
+    fade = widget.remix.fade;
+    soundsPerMinute = widget.remix.soundsPerMinute;
+    mode = widget.remix.mode;
   }
 
   @override
@@ -85,50 +83,50 @@ class _RemixSettingsState extends State<RemixSettings> {
           ],
         ),
         body: Column(children: [
-          SortBar(),
-          CommonDivider(),
+          const SortBar(),
+          const CommonDivider(),
           RemixModeButton(widget.remix, () {
-            if (widget.mode == RemixModes.overlay) {
+            if (mode == RemixModes.overlay) {
               widget.remix.mode = RemixModes.sequential;
               setState(() {
-                widget.mode = RemixModes.sequential;
+                mode = RemixModes.sequential;
               });
               return;
             }
             setState(() {
-              widget.mode = RemixModes.overlay;
+              mode = RemixModes.overlay;
             });
             widget.remix.mode = RemixModes.overlay;
           }),
-          CommonDivider(),
+          const CommonDivider(),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Fade"),
-              Text(widget.fade.toStringAsFixed(2) + " seconds")
+              const Text("Fade"),
+              Text("${fade.toStringAsFixed(2)} seconds")
             ],
           ),
           Slider(
-            value: widget.fade,
-            onChanged: (value) => setState(() => widget.fade = value),
+            value: fade,
+            onChanged: (value) => setState(() => fade = value),
             onChangeEnd: (value) => widget.remix.fade = value,
             min: widget.remix.fadeRange[0],
             max: widget.remix.fadeRange[1],
           ),
-          CommonDivider(),
-          if (widget.mode == RemixModes.overlay)
+          const CommonDivider(),
+          if (mode == RemixModes.overlay)
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text("Sounds"),
-                Text(widget.soundsPerMinute.toString() + " per minute")
+                const Text("Sounds"),
+                Text("$soundsPerMinute per minute")
               ],
             ),
-          if (widget.mode == RemixModes.overlay)
+          if (mode == RemixModes.overlay)
             Slider(
-              value: widget.soundsPerMinute.toDouble(),
+              value: soundsPerMinute.toDouble(),
               onChanged: (value) =>
-                  setState(() => widget.soundsPerMinute = value.toInt()),
+                  setState(() => soundsPerMinute = value.toInt()),
               onChangeEnd: (value) =>
                   widget.remix.soundsPerMinute = value.toInt(),
               min: widget.remix.soundsPerMinuteRange[0].toDouble(),
@@ -137,15 +135,15 @@ class _RemixSettingsState extends State<RemixSettings> {
                       widget.remix.soundsPerMinuteRange[0])
                   .round(),
             ),
-          if (widget.mode == RemixModes.overlay) CommonDivider(),
+          if (mode == RemixModes.overlay) const CommonDivider(),
           Expanded(flex: 5, child: RemixSoundList(widget.remix))
         ]));
   }
 }
 
 class CarouselItem extends StatelessWidget {
-  CarouselItem(this.value, {super.key});
-  String value;
+  const CarouselItem(this.value, {super.key});
+  final String value;
 
   @override
   Widget build(BuildContext context) {

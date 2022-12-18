@@ -3,7 +3,6 @@ import 'dart:math';
 
 import 'package:asmr_maker/providers/remix.dart';
 import 'package:asmr_maker/providers/sound.dart';
-import 'package:asmr_maker/util/util.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +10,7 @@ import '../components/enum_def.dart';
 
 class RemixPlaying extends ChangeNotifier {
   RemixPlaying();
-  List<RemixPlayer> _remixPlayers = [];
+  final List<RemixPlayer> _remixPlayers = [];
 
   void play(Remix remix) {
     assert(!contains(remix));

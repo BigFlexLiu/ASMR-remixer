@@ -1,7 +1,5 @@
 import 'package:asmr_maker/components/common_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:provider/provider.dart';
 
@@ -41,15 +39,15 @@ class _ThemeSelectionState extends State<ThemeSelection> {
           items: themes,
           itemBuilder: (value) => RadioButtonBuilder(value),
         ),
-        CommonDivider(),
-        CommonPadding(Text("Suggest a feature or contribute a sound?")),
-        CommonPadding(ContactMe()),
-        CommonDivider(),
-        CommonPadding(Text("Like or dislike this app?")),
-        CommonPadding(RateMe()),
-        CommonDivider(),
-        CommonPadding(Text("Find others enjoying this app?")),
-        CommonPadding(FindMe())
+        const CommonDivider(),
+        const CommonPadding(Text("Suggest a feature or contribute a sound?")),
+        const CommonPadding(ContactMe()),
+        const CommonDivider(),
+        const CommonPadding(Text("Like or dislike this app?")),
+        const CommonPadding(RateMe()),
+        const CommonDivider(),
+        const CommonPadding(Text("Find others enjoying this app?")),
+        const CommonPadding(FindMe())
       ],
     );
   }
@@ -62,8 +60,8 @@ class ContactMe extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {},
-      label: Text("Contact me"),
-      icon: Icon(Icons.email_outlined),
+      label: const Text("Contact me"),
+      icon: const Icon(Icons.email_outlined),
     );
   }
 }
@@ -75,8 +73,8 @@ class RateMe extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {},
-      label: Text("Rate me"),
-      icon: Icon(Icons.rate_review),
+      label: const Text("Rate me"),
+      icon: const Icon(Icons.rate_review),
     );
   }
 }
@@ -88,15 +86,15 @@ class FindMe extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
       onPressed: () {},
-      label: Text("Find me"),
-      icon: Icon(Icons.discord),
+      label: const Text("Find me"),
+      icon: const Icon(Icons.discord),
     );
   }
 }
 
 class CommonPadding extends StatelessWidget {
-  CommonPadding(this.content, {super.key});
-  Widget content;
+  const CommonPadding(this.content, {super.key});
+  final Widget content;
 
   @override
   Widget build(BuildContext context) {

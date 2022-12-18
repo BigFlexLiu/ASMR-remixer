@@ -1,7 +1,6 @@
 import 'package:asmr_maker/components/enum_def.dart';
-import 'package:asmr_maker/providers/playing.dart';
+import 'package:asmr_maker/providers/sound_playing.dart';
 import 'package:asmr_maker/util/util.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +14,7 @@ class SoundList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SortBar(),
+        const SortBar(),
         Expanded(
           child: ListView(
               children: Provider.of<SoundClips>(context).names.map((fileName) {
@@ -28,18 +27,18 @@ class SoundList extends StatelessWidget {
                     Expanded(
                       flex: 5,
                       child: Container(
+                        margin: const EdgeInsets.all(8.0),
                         child: Text(
                           friendlyName,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        margin: EdgeInsets.all(8.0),
                       ),
                     ),
                     PlayButton(fileName),
                     FavouriteButton(friendlyName),
                   ],
                 ),
-                CommonDivider()
+                const CommonDivider()
               ],
             );
           }).toList()),
@@ -59,25 +58,24 @@ class CommonDivider extends StatelessWidget {
 }
 
 class PlayButton extends StatelessWidget {
-  PlayButton(this.sourceName, {super.key});
-  String sourceName;
-  AudioPlayer player = AudioPlayer();
+  const PlayButton(this.sourceName, {super.key});
+  final String sourceName;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          context.read<Playing>().playSound(sourceName);
+          context.read<SoundsPlaying>().playSound(sourceName);
         },
-        icon: Icon(context.watch<Playing>().isSoundPlaying(sourceName)
+        icon: Icon(context.watch<SoundsPlaying>().isSoundPlaying(sourceName)
             ? Icons.stop
             : Icons.play_arrow));
   }
 }
 
 class FavouriteButton extends StatelessWidget {
-  FavouriteButton(this.soundName, {super.key});
-  String soundName;
+  const FavouriteButton(this.soundName, {super.key});
+  final String soundName;
 
   @override
   Widget build(BuildContext context) {

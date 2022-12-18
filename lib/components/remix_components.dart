@@ -1,12 +1,11 @@
 import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:asmr_maker/pages/sound_setting.dart';
-import 'package:asmr_maker/providers/Remix_playing.dart';
+import 'package:asmr_maker/providers/remix_playing.dart';
 import 'package:asmr_maker/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/favourites.dart';
 import '../providers/remix.dart';
 import '../providers/remixes.dart';
 import '../providers/sound.dart';
@@ -28,18 +27,18 @@ class RemixList extends StatelessWidget {
               Expanded(
                 flex: 5,
                 child: Container(
+                  margin: const EdgeInsets.all(8.0),
                   child: Text(
                     remix.name,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  margin: EdgeInsets.all(8.0),
                 ),
               ),
               if (remix.hasSound) PlayRemixButton(remix),
               RemixSettingButton(remix),
             ],
           ),
-          CommonDivider()
+          const CommonDivider()
         ],
       );
     }).toList());
@@ -47,8 +46,8 @@ class RemixList extends StatelessWidget {
 }
 
 class DeleteRemixButton extends StatelessWidget {
-  DeleteRemixButton(this.remix, {super.key});
-  Remix remix;
+  const DeleteRemixButton(this.remix, {super.key});
+  final Remix remix;
 
   @override
   Widget build(BuildContext context) {
@@ -58,16 +57,16 @@ class DeleteRemixButton extends StatelessWidget {
             builder: (context) {
               return AlertDialog(
                 title: Text("Delete ${remix.name}?"),
-                content: Text("There is no undo button after deletion!"),
+                content: const Text("There is no undo button after deletion!"),
                 actions: [
                   TextButton(
-                      child: Text("Yes"),
+                      child: const Text("Yes"),
                       onPressed: () {
                         context.read<Remixes>().removeRemix(remix);
                         Navigator.of(context).pop();
                       }),
                   TextButton(
-                      child: Text("No"),
+                      child: const Text("No"),
                       onPressed: () => Navigator.of(context).pop())
                 ],
               );
@@ -77,8 +76,8 @@ class DeleteRemixButton extends StatelessWidget {
 }
 
 class RemixSoundList extends StatefulWidget {
-  RemixSoundList(this.remix, {super.key});
-  Remix remix;
+  const RemixSoundList(this.remix, {super.key});
+  final Remix remix;
 
   @override
   State<RemixSoundList> createState() => _RemixSoundListState();
@@ -101,11 +100,11 @@ class _RemixSoundListState extends State<RemixSoundList> {
               Expanded(
                 flex: 5,
                 child: Container(
+                  margin: const EdgeInsets.all(8.0),
                   child: Text(
                     friendlyName,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
-                  margin: EdgeInsets.all(8.0),
                 ),
               ),
               if (isSoundInRemix)
@@ -114,7 +113,7 @@ class _RemixSoundListState extends State<RemixSoundList> {
               FavouriteButton(fileName),
             ],
           ),
-          CommonDivider()
+          const CommonDivider()
         ],
       );
     }).toList());
@@ -123,11 +122,11 @@ class _RemixSoundListState extends State<RemixSoundList> {
 
 // Adds sound to remix
 class SoundAddButton extends StatefulWidget {
-  SoundAddButton(this.remix, this.soundName, this.changeIsSoundInRemix,
+  const SoundAddButton(this.remix, this.soundName, this.changeIsSoundInRemix,
       {super.key});
-  Remix remix;
-  String soundName;
-  VoidCallback changeIsSoundInRemix;
+  final Remix remix;
+  final String soundName;
+  final VoidCallback changeIsSoundInRemix;
 
   @override
   State<SoundAddButton> createState() => _SoundAddButtonState();
@@ -149,8 +148,8 @@ class _SoundAddButtonState extends State<SoundAddButton> {
 }
 
 class SoundSettingButton extends StatelessWidget {
-  SoundSettingButton(this.sound, {super.key});
-  Sound sound;
+  const SoundSettingButton(this.sound, {super.key});
+  final Sound sound;
 
   @override
   Widget build(BuildContext context) {
@@ -161,10 +160,9 @@ class SoundSettingButton extends StatelessWidget {
   }
 }
 
-// TODO
 class PlayRemixButton extends StatelessWidget {
-  PlayRemixButton(this.remix, {super.key});
-  Remix remix;
+  const PlayRemixButton(this.remix, {super.key});
+  final Remix remix;
 
   @override
   Widget build(BuildContext context) {
@@ -183,8 +181,8 @@ class PlayRemixButton extends StatelessWidget {
 }
 
 class RemixSettingButton extends StatelessWidget {
-  RemixSettingButton(this.remix, {super.key});
-  Remix remix;
+  const RemixSettingButton(this.remix, {super.key});
+  final Remix remix;
 
   @override
   Widget build(BuildContext context) {
@@ -205,9 +203,9 @@ class RemixSettingButton extends StatelessWidget {
 
 class RemixModeButton extends StatefulWidget {
   RemixModeButton(this.remix, this.onPressed, {super.key}) : mode = remix.mode;
-  Remix remix;
-  RemixModes mode;
-  VoidCallback onPressed;
+  final Remix remix;
+  final RemixModes mode;
+  final VoidCallback onPressed;
 
   @override
   State<RemixModeButton> createState() => _RemixModeButtonState();
@@ -217,7 +215,7 @@ class _RemixModeButtonState extends State<RemixModeButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-        style: ButtonStyle(
+        style: const ButtonStyle(
             minimumSize: MaterialStatePropertyAll(Size.fromHeight(50))),
         onPressed: widget.onPressed,
         child: Text(

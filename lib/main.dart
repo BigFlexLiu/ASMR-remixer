@@ -1,28 +1,22 @@
-import 'dart:convert';
-
 import 'package:asmr_maker/pages/collection_page.dart';
-import 'package:asmr_maker/pages/favourite_page.dart';
 import 'package:asmr_maker/pages/remix_page.dart';
 import 'package:asmr_maker/pages/settings_page.dart';
-import 'package:asmr_maker/providers/Remix_playing.dart';
+import 'package:asmr_maker/providers/remix_playing.dart';
 import 'package:asmr_maker/providers/favourites.dart';
-import 'package:asmr_maker/providers/playing.dart';
-import 'package:asmr_maker/providers/remix.dart';
+import 'package:asmr_maker/providers/sound_playing.dart';
 import 'package:asmr_maker/providers/remixes.dart';
 import 'package:asmr_maker/providers/settings.dart';
-import 'package:asmr_maker/providers/sound.dart';
 import 'package:asmr_maker/providers/sound_clips.dart';
 import 'package:asmr_maker/theme.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  MyApp({super.key});
+  const MyApp({super.key});
 
   // This widget is the root of your application.
   @override
@@ -39,7 +33,7 @@ class MyApp extends StatelessWidget {
               Remixes()), // Contains all the remixes the user created
       ChangeNotifierProvider(
         // Contains all the sounds that are currently playing
-        create: (_) => Playing(),
+        create: (_) => SoundsPlaying(),
       ),
       ChangeNotifierProvider(
         // Contains all the remixes that are currently playing
@@ -49,7 +43,7 @@ class MyApp extends StatelessWidget {
         // Contains all the remixes that are currently playing
         create: (_) => Settings(),
       ),
-    ], child: ThemeWraper());
+    ], child: const ThemeWraper());
   }
 }
 
@@ -87,7 +81,14 @@ class ThemeWraper extends StatelessWidget {
 /// This is the stateless widget that the main application instantiates.
 class MainScreen extends StatelessWidget {
   final controller = PageController(initialPage: 0);
-  final screens = <Widget>[CollectionPage(), RemixPage(), SettingsPage()];
+  final screens = <Widget>[
+    const CollectionPage(),
+    const RemixPage(),
+    const SettingsPage()
+  ];
+
+  MainScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Center(child: PageView.builder(itemBuilder: (context, position) {

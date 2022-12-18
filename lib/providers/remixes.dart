@@ -1,21 +1,16 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:asmr_maker/providers/remix.dart';
-import 'package:asmr_maker/providers/sound.dart';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
-
-import '../components/enum_def.dart';
 
 class Remixes with ChangeNotifier {
   List<Remix> _remixes = [];
 
   Remixes() {
     initState();
-    addListener(() {
-      print("Remixes listeners called");
-    });
   }
 
   void initState() {
@@ -44,34 +39,27 @@ class Remixes with ChangeNotifier {
   }
 
   Future<void> _getStoredData() async {
-    // print("Reading");
     try {
       final file = await _getStorageFile();
       final fileExists = await file.exists();
       if (fileExists) {
         final content = await file.readAsString();
-        // print(content);
         _remixes = Remixes.fromJson(json.decode(content)).remixes;
         listenToRemixes();
         notifyListeners();
-        // print("Read");
       }
     } catch (e) {
-      print("Read failed");
-      print(e);
+      log("Read failed");
       return;
     }
   }
 
   save() async {
-    print("Saving");
     try {
       final file = await _getStorageFile();
       file.writeAsString(json.encode(toJson()));
-      print("Saved");
     } catch (e) {
-      print("Save failed");
-      print(e);
+      log("Save failed");
       return 0;
     }
   }

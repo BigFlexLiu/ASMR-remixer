@@ -43,11 +43,10 @@ class Remix with ChangeNotifier {
     notifyListeners();
   }
 
-  void AddSound(Sound sound) {
+  void addSound(Sound sound) {
     sounds.add(sound);
     sound.addListener(() {
       notifyListeners();
-      print("notifies remix");
     });
     notifyListeners();
   }
@@ -94,7 +93,7 @@ class Remix with ChangeNotifier {
     }
 
     for (var e in (json['sounds'] as List)) {
-      AddSound(Sound.fromJson(e));
+      addSound(Sound.fromJson(e));
     }
   }
 
