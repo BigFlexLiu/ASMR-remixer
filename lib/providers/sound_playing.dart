@@ -9,12 +9,12 @@ class SoundsPlaying extends ChangeNotifier {
   }
 
   // Play sound if not playing
-  // Stop sound then play from start if already playing
+  // Remove sound if already playing
   void playSound(String sourceName) {
     // Sound is already playing
     if (_soundsPlaying.containsKey(sourceName)) {
       _soundsPlaying[sourceName]!.stop();
-      _soundsPlaying[sourceName]!.resume();
+      _soundsPlaying.remove(sourceName);
       notifyListeners();
       return;
     }
