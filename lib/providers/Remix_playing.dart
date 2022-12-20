@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:asmr_maker/providers/remix.dart';
 import 'package:asmr_maker/providers/sound.dart';
+import 'package:asmr_maker/util/global_settings.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -140,7 +141,9 @@ class RemixPlayer {
     await player.stop();
     await player.setSource(AssetSource(sound.name));
     await player.setVolume(sound.volume);
-    await player.setBalance(sound.balance);
+    if (IS_BALANCE_ENABLED) {
+      await player.setBalance(sound.balance);
+    }
     return player;
   }
 

@@ -1,3 +1,4 @@
+import 'package:asmr_maker/util/global_settings.dart';
 import 'package:flutter/material.dart';
 import '../providers/sound.dart';
 
@@ -49,20 +50,22 @@ class _SoundSettingState extends State<SoundSetting> {
           min: widget.sound.frequencyRange[0],
           max: widget.sound.frequencyRange[1],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Balance"),
-            Text(widget.balance.toStringAsFixed(2))
-          ],
-        ),
-        Slider(
-          value: widget.balance,
-          onChanged: (value) => setState(() => widget.balance = value),
-          onChangeEnd: (value) => widget.sound.balance = value,
-          min: widget.sound.balanceRange[0],
-          max: widget.sound.balanceRange[1],
-        ),
+        if (IS_BALANCE_ENABLED)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Balance"),
+              Text(widget.balance.toStringAsFixed(2))
+            ],
+          ),
+        if (IS_BALANCE_ENABLED)
+          Slider(
+            value: widget.balance,
+            onChanged: (value) => setState(() => widget.balance = value),
+            onChangeEnd: (value) => widget.sound.balance = value,
+            min: widget.sound.balanceRange[0],
+            max: widget.sound.balanceRange[1],
+          ),
         TextButton(
             onPressed: () => widget.sound.reset(), child: const Text("Reset"))
       ]),
