@@ -2,6 +2,7 @@ import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:asmr_maker/pages/sound_setting.dart';
 import 'package:asmr_maker/providers/remix_playing.dart';
+import 'package:asmr_maker/providers/sound_playing.dart';
 import 'package:asmr_maker/util/util.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -155,8 +156,11 @@ class SoundSettingButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-        onPressed: () => Navigator.push(context,
-            MaterialPageRoute(builder: (context) => SoundSetting(sound))),
+        onPressed: () {
+          context.read<SoundsPlaying>().stopSound(sound.name);
+          Navigator.push(context,
+              MaterialPageRoute(builder: (context) => SoundSetting(sound)));
+        },
         icon: const Icon(Icons.settings));
   }
 }
@@ -193,10 +197,7 @@ class RemixSettingButton extends StatelessWidget {
               .contains(remix)) {
             Provider.of<RemixPlaying>(context, listen: false).stop(remix);
           }
-          context.read<SoundClips>().remix = remix;
-          Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => RemixSettings(remix)))
-              .then((value) => context.read<SoundClips>().remix = null);
+          goToRemixPage(context, remix);
         },
         icon: const Icon(Icons.settings));
   }

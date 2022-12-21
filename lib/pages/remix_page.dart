@@ -6,6 +6,8 @@ import '../components/remix_components.dart';
 import '../providers/remix.dart';
 import '../providers/remixes.dart';
 import '../providers/sound_clips.dart';
+import '../providers/sound_playing.dart';
+import '../util/util.dart';
 
 class RemixPage extends StatefulWidget {
   const RemixPage({super.key});
@@ -57,16 +59,7 @@ class _RemixPageState extends State<RemixPage> {
                               Remix newRemix = Remix()..name = newRemixName;
                               Navigator.pop(context, 'OK');
                               context.read<Remixes>().addRemix(newRemix);
-                              context.read<SoundClips>().remix = newRemix;
-
-                              Navigator.push(
-                                  bottomContext,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          RemixSettings(newRemix))).then(
-                                  (value) => bottomContext
-                                      .read<SoundClips>()
-                                      .remix = null);
+                              goToRemixPage(context, newRemix);
 
                               setState(() {
                                 newRemixName = "";

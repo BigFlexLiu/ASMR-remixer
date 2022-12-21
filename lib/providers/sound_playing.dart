@@ -37,5 +37,22 @@ class SoundsPlaying extends ChangeNotifier {
     notifyListeners();
   }
 
+  void stopSound(String sourceName) {
+    if (_soundsPlaying.containsKey(sourceName)) {
+      _soundsPlaying[sourceName]!.stop();
+      _soundsPlaying.remove(sourceName);
+      notifyListeners();
+      return;
+    }
+  }
+
+  void stopAllSounds() {
+    for (var sound in _soundsPlaying.values) {
+      sound.stop();
+    }
+    _soundsPlaying.clear();
+    notifyListeners();
+  }
+
   get soundsPlaying => _soundsPlaying.keys;
 }
