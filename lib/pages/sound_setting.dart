@@ -67,7 +67,15 @@ class _SoundSettingState extends State<SoundSetting> {
             max: widget.sound.balanceRange[1],
           ),
         TextButton(
-            onPressed: () => widget.sound.reset(), child: const Text("Reset"))
+            onPressed: () {
+              widget.sound.reset();
+              setState(() {
+                widget.volume = widget.sound.volume;
+                widget.frequency = widget.sound.frequency;
+                widget.balance = widget.sound.balance;
+              });
+            },
+            child: const Text("Reset"))
       ]),
     );
   }

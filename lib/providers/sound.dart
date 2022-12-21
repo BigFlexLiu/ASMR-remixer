@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 class Sound with ChangeNotifier {
@@ -33,26 +34,17 @@ class Sound with ChangeNotifier {
   double get balance => _balance;
 
   set volume(double value) {
-    if (value < 0 && value > 1) {
-      throw RangeError("Volume must be between 0 to 1, given: $value");
-    }
-    _volume = value;
+    _volume = min(max(value, volumeRange[0]), volumeRange[1]);
     notifyListeners();
   }
 
   set frequency(double value) {
-    if (value < 0.1 && value > 10) {
-      throw RangeError("Frequency must be between 0.1 to 10, given: $value");
-    }
-    _frequency = value;
+    _frequency = min(max(value, frequencyRange[0]), frequencyRange[1]);
     notifyListeners();
   }
 
   set balance(double value) {
-    if (value < -1 && value > 1) {
-      throw RangeError("Balance must be between -1 to 1, given: $value");
-    }
-    _balance = value;
+    _balance = min(max(value, balanceRange[0]), balanceRange[1]);
     notifyListeners();
   }
 
