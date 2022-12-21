@@ -90,6 +90,7 @@ class _RemixSoundListState extends State<RemixSoundList> {
         children: Provider.of<SoundClips>(context).names.map((fileName) {
       String friendlyName = getSoundFriendlyName(fileName);
       bool isSoundInRemix = widget.remix.contains(fileName);
+      Sound? sound = isSoundInRemix ? widget.remix.getSound(fileName) : null;
 
       return Column(
         children: [
@@ -109,7 +110,7 @@ class _RemixSoundListState extends State<RemixSoundList> {
               ),
               if (isSoundInRemix)
                 SoundSettingButton(widget.remix.getSound(fileName)),
-              PlayButton(fileName),
+              PlayButton(fileName, settings: sound),
               FavouriteButton(fileName),
             ],
           ),
