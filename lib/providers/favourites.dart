@@ -14,7 +14,7 @@ class Favourites with ChangeNotifier {
   }
 
   void changeFavourite(String name) {
-    String nameSimplified = getSoundFriendlyName(name);
+    String nameSimplified = name;
     if (favouriteSounds.contains(nameSimplified)) {
       favouriteSounds.remove(nameSimplified);
     } else {
@@ -24,8 +24,7 @@ class Favourites with ChangeNotifier {
     notifyListeners();
   }
 
-  bool contains(String sound) =>
-      favouriteSounds.contains(getSoundFriendlyName(sound));
+  bool contains(String sound) => favouriteSounds.contains(sound);
 
   Future<void> saveFavourites() async {
     final SharedPreferences prefs = await _prefs;
