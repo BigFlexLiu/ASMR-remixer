@@ -7,9 +7,9 @@ class Sound with ChangeNotifier {
   double _volume = 1.0; // 0 to 1
   double _frequency = 1.0; // 0.1 to 10
   double _balance = 0; // -1 to 1 for left to right
-  String name;
+  final String _name;
 
-  Sound(this.name);
+  Sound(this._name);
 
   void reset() {
     _volume = 1.0;
@@ -32,7 +32,7 @@ class Sound with ChangeNotifier {
       : _volume = json['volume'],
         _frequency = json['frequency'],
         _balance = json['balance'],
-        name = json['name'];
+        _name = json['name'];
 
   Map<String, dynamic> toJson() => {
         "volume": _volume,
@@ -63,4 +63,5 @@ class Sound with ChangeNotifier {
   List<double> get volumeRange => [0, 1];
   List<double> get frequencyRange => [0.1, 10];
   List<double> get balanceRange => [-1, 1];
+  String get name => _name;
 }
