@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:asmr_maker/providers/remix.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../components/enum_def.dart';
 import 'favourites.dart';
@@ -13,21 +14,29 @@ class SoundClips extends ChangeNotifier {
   final List<SortBy> _sorting = [];
   Remix? _remix;
   final Favourites _favourites;
+  final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   SoundClips(this._favourites) {
-    _fetchSounds().then((value) {
-      // Remove "Asset/" from the name
-      for (var element in value) {
-        _unsortedNames.add(element.substring(7));
-      }
-      _names = _unsortedNames.sublist(0);
-      notifyListeners();
-    });
+    initialize();
+  }
+
+  void initialize() async {
+    // Get sound path
+    var soundPaths = await _fetchSounds();
+    // Remove "Asset/" from the path
+    for (var path in soundPaths) {
+      _unsortedNames.add(path.substring(7));
+    }
+    // Make deep copy of the paths
+    _names = _unsortedNames.sublist(0);
+    await readSortings();
+
     _favourites.addListener(() {
       if (_sorting.contains(SortBy.favourite)) {
         _sort();
       }
     });
+    notifyListeners();
   }
 
   Future<List<String>> _fetchSounds() async {
@@ -70,11 +79,31 @@ class SoundClips extends ChangeNotifier {
   }
 
   void addSorting(SortBy sortby) {
+    saveSortings();
     if (sorting.contains(sortby)) {
       sorting.remove(sortby);
     } else {
       sorting.add(sortby);
     }
+    _sort();
+  }
+
+  // Saves _sortings to memory
+  Future<void> saveSortings() async {
+    final SharedPreferences prefs = await _prefs;
+    prefs.setStringList("sortings", sorting.map((e) => e.name).toList());
+  }
+
+  // Read _sortings from memory
+  Future<void> readSortings() async {
+    final SharedPreferences prefs = await _prefs;
+    // Get sortby stored
+    _sorting.addAll(prefs
+            .getStringList("sortings")
+            ?.map(
+                (e) => SortBy.values.firstWhere((element) => element.name == e))
+            .toList() ??
+        []);
     _sort();
   }
 
