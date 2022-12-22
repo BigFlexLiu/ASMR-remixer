@@ -21,7 +21,7 @@ class _ThemeSelectionState extends State<ThemeSelection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CommonPadding(
-          Text(
+          child: Text(
             "Theme",
             style: Theme.of(context).textTheme.headline6,
           ),
@@ -39,15 +39,6 @@ class _ThemeSelectionState extends State<ThemeSelection> {
           items: themes,
           itemBuilder: (value) => RadioButtonBuilder(value),
         ),
-        const CommonDivider(),
-        const CommonPadding(Text("Suggest a feature or contribute a sound?")),
-        const CommonPadding(ContactMe()),
-        const CommonDivider(),
-        const CommonPadding(Text("Like or dislike this app?")),
-        const CommonPadding(RateMe()),
-        const CommonDivider(),
-        const CommonPadding(Text("Find others enjoying this app?")),
-        const CommonPadding(FindMe())
       ],
     );
   }
@@ -93,12 +84,12 @@ class FindMe extends StatelessWidget {
 }
 
 class CommonPadding extends StatelessWidget {
-  const CommonPadding(this.content, {super.key});
-  final Widget content;
+  CommonPadding({this.child, super.key});
+  Widget? child;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0), child: content);
+        padding: const EdgeInsets.symmetric(horizontal: 12.0), child: child);
   }
 }

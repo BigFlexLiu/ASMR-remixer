@@ -1,4 +1,5 @@
 import 'package:asmr_maker/components/enum_def.dart';
+import 'package:asmr_maker/components/settings_components.dart';
 import 'package:asmr_maker/pages/remix_settings.dart';
 import 'package:asmr_maker/pages/sound_setting.dart';
 import 'package:asmr_maker/providers/remix_playing.dart';
@@ -18,6 +19,20 @@ class RemixList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (context.watch<Remixes>().remixes.isEmpty) {
+      return CommonPadding(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              "Nothing to see here. \nAdd a remix at the top left.",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            Icon(Icons.arrow_upward),
+          ],
+        ),
+      );
+    }
     return ListView(
         children: Provider.of<Remixes>(context).remixes.map((remix) {
       return Column(
@@ -61,14 +76,14 @@ class DeleteRemixButton extends StatelessWidget {
                 content: const Text("There is no undo button after deletion!"),
                 actions: [
                   TextButton(
+                      child: const Text("No"),
+                      onPressed: () => Navigator.of(context).pop()),
+                  TextButton(
                       child: const Text("Yes"),
                       onPressed: () {
                         context.read<Remixes>().removeRemix(remix);
                         Navigator.of(context).pop();
                       }),
-                  TextButton(
-                      child: const Text("No"),
-                      onPressed: () => Navigator.of(context).pop())
                 ],
               );
             }),

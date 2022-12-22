@@ -1,4 +1,5 @@
 import 'package:asmr_maker/components/enum_def.dart';
+import 'package:asmr_maker/components/settings_components.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -66,7 +67,7 @@ class _RemixSettingsState extends State<RemixSettings> {
                         });
                         Navigator.pop(context, 'OK');
                       },
-                      child: const Text('Done'),
+                      child: const Text('Ok'),
                     ),
                   ],
                 ),
@@ -99,12 +100,14 @@ class _RemixSettingsState extends State<RemixSettings> {
             widget.remix.mode = RemixModes.overlay;
           }),
           const CommonDivider(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              const Text("Fade"),
-              Text("${fade.toStringAsFixed(2)} seconds")
-            ],
+          CommonPadding(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Fade"),
+                Text("${fade.toStringAsFixed(2)} seconds")
+              ],
+            ),
           ),
           Slider(
             value: fade,
@@ -115,12 +118,14 @@ class _RemixSettingsState extends State<RemixSettings> {
           ),
           const CommonDivider(),
           if (mode == RemixModes.overlay)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text("Sounds"),
-                Text("$soundsPerMinute per minute")
-              ],
+            CommonPadding(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Sounds"),
+                  Text("$soundsPerMinute per minute")
+                ],
+              ),
             ),
           if (mode == RemixModes.overlay)
             Slider(
