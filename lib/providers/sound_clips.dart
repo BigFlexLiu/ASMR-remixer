@@ -12,9 +12,9 @@ class SoundClips extends ChangeNotifier {
   final List<String> _unsortedNames = [];
   final List<SortBy> _sorting = [];
   Remix? _remix;
-  Favourites favourites;
+  final Favourites _favourites;
 
-  SoundClips(this.favourites) {
+  SoundClips(this._favourites) {
     _fetchSounds().then((value) {
       // Remove "Asset/" from the name
       for (var element in value) {
@@ -23,7 +23,7 @@ class SoundClips extends ChangeNotifier {
       _names = _unsortedNames.sublist(0);
       notifyListeners();
     });
-    favourites.addListener(() {
+    _favourites.addListener(() {
       if (_sorting.contains(SortBy.favourite)) {
         _sort();
       }
@@ -81,6 +81,7 @@ class SoundClips extends ChangeNotifier {
   List<String> get names => _names;
   List<SortBy> get sorting => _sorting;
   bool get hasRemix => _remix != null;
+  Favourites get favourites => _favourites;
 
   set remix(Remix? newRemix) {
     _remix = newRemix;
