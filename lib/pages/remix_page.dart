@@ -59,13 +59,14 @@ class _RemixPageState extends State<RemixPage> {
                               Remix newRemix = Remix()..name = newRemixName;
                               Navigator.pop(context, 'OK');
                               context.read<Remixes>().addRemix(newRemix);
-                              goToRemixPage(context, newRemix);
+
+                              goToRemixPage(bottomContext, newRemix);
 
                               setState(() {
                                 newRemixName = "";
                               });
                             },
-                            child: const Text('Done'),
+                            child: const Text('Ok'),
                           ),
                         ],
                       ),
