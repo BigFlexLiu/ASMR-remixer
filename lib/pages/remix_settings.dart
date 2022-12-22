@@ -46,8 +46,8 @@ class _RemixSettingsState extends State<RemixSettings> {
                 builder: (context) => AlertDialog(
                   title: const Text('Edit remix name'),
                   content: TextField(
-                    decoration: InputDecoration(
-                        labelText: newRemixName, hintText: 'unnamed'),
+                    decoration: const InputDecoration(
+                        hintText: 'Give your remix a new name'),
                     onChanged: (value) {
                       setState(() {
                         newRemixName = value;
