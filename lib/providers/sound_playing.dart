@@ -1,3 +1,4 @@
+import 'package:asmr_maker/providers/sound.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,8 @@ class SoundsPlaying extends ChangeNotifier {
 
   // Play sound if not playing
   // Remove sound if already playing
-  void playSound(String sourceName) {
+  // If settings exist, then play it directly
+  void playSound(String sourceName, [Sound? settings]) {
     // Sound is already playing
     if (_soundsPlaying.containsKey(sourceName)) {
       _soundsPlaying[sourceName]!.stop();
@@ -19,14 +21,36 @@ class SoundsPlaying extends ChangeNotifier {
       return;
     }
     // Sound is not already playing
+    // Use settings if has one
     AudioPlayer player = AudioPlayer();
-    player.play(AssetSource(sourceName));
+    if (settings != null) {
+      player = settings.play();
+    } else {
+      player.play(AssetSource(sourceName));
+    }
     _soundsPlaying[sourceName] = player;
     // Delete from map of sounds playing when done
     player.onPlayerComplete.listen((event) {
       _soundsPlaying.remove(sourceName);
       notifyListeners();
     });
+    notifyListeners();
+  }
+
+  void stopSound(String sourceName) {
+    if (_soundsPlaying.containsKey(sourceName)) {
+      _soundsPlaying[sourceName]!.stop();
+      _soundsPlaying.remove(sourceName);
+      notifyListeners();
+      return;
+    }
+  }
+
+  void stopAllSounds() {
+    for (var sound in _soundsPlaying.values) {
+      sound.stop();
+    }
+    _soundsPlaying.clear();
     notifyListeners();
   }
 

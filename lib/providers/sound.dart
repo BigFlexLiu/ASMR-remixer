@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:asmr_maker/util/global_settings.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 
 class Sound with ChangeNotifier {
@@ -14,6 +16,16 @@ class Sound with ChangeNotifier {
     _frequency = 1.0;
     _balance = 0;
     notifyListeners();
+  }
+
+  AudioPlayer play() {
+    var player = AudioPlayer();
+    player.setVolume(_volume);
+    if (IS_BALANCE_ENABLED) {
+      player.setBalance(balance);
+    }
+    player.play(AssetSource(name));
+    return player;
   }
 
   Sound.fromJson(Map<String, dynamic> json)

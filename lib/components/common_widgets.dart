@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/favourites.dart';
+import '../providers/sound.dart';
 import '../providers/sound_clips.dart';
 
 class SoundList extends StatelessWidget {
@@ -35,7 +36,7 @@ class SoundList extends StatelessWidget {
                       ),
                     ),
                     PlayButton(fileName),
-                    FavouriteButton(friendlyName),
+                    FavouriteButton(fileName),
                   ],
                 ),
                 const CommonDivider()
@@ -58,14 +59,15 @@ class CommonDivider extends StatelessWidget {
 }
 
 class PlayButton extends StatelessWidget {
-  const PlayButton(this.sourceName, {super.key});
+  const PlayButton(this.sourceName, {this.settings, super.key});
   final String sourceName;
+  final Sound? settings;
 
   @override
   Widget build(BuildContext context) {
     return IconButton(
         onPressed: () {
-          context.read<SoundsPlaying>().playSound(sourceName);
+          context.read<SoundsPlaying>().playSound(sourceName, settings);
         },
         icon: Icon(context.watch<SoundsPlaying>().isSoundPlaying(sourceName)
             ? Icons.stop
