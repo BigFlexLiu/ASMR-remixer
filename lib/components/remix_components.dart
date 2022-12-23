@@ -82,6 +82,7 @@ class DeleteRemixButton extends StatelessWidget {
                       child: const Text("Yes"),
                       onPressed: () {
                         context.read<Remixes>().removeRemix(remix);
+                        context.read<RemixPlaying>().stop(remix);
                         Navigator.of(context).pop();
                       }),
                 ],
