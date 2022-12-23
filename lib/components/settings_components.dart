@@ -14,7 +14,6 @@ class ThemeSelection extends StatefulWidget {
 
 class _ThemeSelectionState extends State<ThemeSelection> {
   final themes = ["system", "light", "dark"];
-  String themeMode = "system";
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -28,13 +27,10 @@ class _ThemeSelectionState extends State<ThemeSelection> {
         ),
         RadioGroup.builder(
           direction: Axis.horizontal,
-          groupValue: themeMode,
+          groupValue: context.watch<Settings>().theme.name,
           onChanged: (value) {
             context.read<Settings>().theme = ThemeMode.values
                 .firstWhere((element) => element.name == value!);
-            setState(() {
-              themeMode = value!;
-            });
           },
           items: themes,
           itemBuilder: (value) => RadioButtonBuilder(value),
