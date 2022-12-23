@@ -1,14 +1,14 @@
 import 'package:asmr_maker/components/common_widgets.dart';
 import 'package:flutter/material.dart';
 
-class CollectionPage extends StatefulWidget {
-  const CollectionPage({super.key});
+class SoundPage extends StatefulWidget {
+  const SoundPage({super.key});
 
   @override
-  State<CollectionPage> createState() => _CollectionPageState();
+  State<SoundPage> createState() => _SoundPageState();
 }
 
-class _CollectionPageState extends State<CollectionPage> {
+class _SoundPageState extends State<SoundPage> {
   List sounds = [];
   List playing = [];
 
@@ -16,7 +16,7 @@ class _CollectionPageState extends State<CollectionPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Collections'),
+        title: const Text('Sounds'),
       ),
       body: const SoundList(),
     );

@@ -1,4 +1,4 @@
-import 'package:asmr_maker/pages/collection_page.dart';
+import 'package:asmr_maker/pages/sounds_page.dart';
 import 'package:asmr_maker/pages/remix_page.dart';
 import 'package:asmr_maker/pages/settings_page.dart';
 import 'package:asmr_maker/providers/remix_playing.dart';
@@ -82,7 +82,7 @@ class ThemeWraper extends StatelessWidget {
 class MainScreen extends StatelessWidget {
   final controller = PageController(initialPage: 0);
   final screens = <Widget>[
-    const CollectionPage(),
+    const SoundPage(),
     const RemixPage(),
     const SettingsPage()
   ];

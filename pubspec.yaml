@@ -42,6 +42,7 @@ dependencies:
   path_provider: ^2.0.11
   carousel_slider: ^4.1.1
   group_radio_button: ^1.3.0
+  font_awesome_flutter: ^10.3.0
 
 dev_dependencies:
   flutter_test:

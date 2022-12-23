@@ -23,10 +23,11 @@ class RemixPlaying extends ChangeNotifier {
   }
 
   void stop(Remix remix) {
-    assert(contains(remix));
-    _findPlayer(remix).stop();
-    _remixPlayers.remove(_findPlayer(remix));
-    notifyListeners();
+    if (contains(remix)) {
+      _findPlayer(remix).stop();
+      _remixPlayers.remove(_findPlayer(remix));
+      notifyListeners();
+    }
   }
 
   RemixPlayer _findPlayer(Remix remix) {
