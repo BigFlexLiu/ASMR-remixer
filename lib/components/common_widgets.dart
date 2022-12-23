@@ -2,6 +2,7 @@ import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/providers/sound_playing.dart';
 import 'package:asmr_maker/util/util.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/favourites.dart';
@@ -134,13 +135,11 @@ class SortBar extends StatelessWidget {
         child: Tooltip(
           message: "Reverse",
           child: OutlinedButton(
-              onPressed: () => soundClips.addSorting(SortBy.reverse),
-              // child: Icon(soundClips.sorting.contains(SortBy.reverse)
-              //     ? FaIcon(FontAwesomeIcons.sortUp).icon
-              //     : FaIcon(FontAwesomeIcons.sortDown).icon),
-              child: Icon(soundClips.sorting.contains(SortBy.reverse)
-                  ? Icons.arrow_upward
-                  : Icons.arrow_downward)),
+            onPressed: () => soundClips.addSorting(SortBy.reverse),
+            child: Icon(soundClips.sorting.contains(SortBy.reverse)
+                ? FaIcon(FontAwesomeIcons.arrowUpShortWide).icon
+                : FaIcon(FontAwesomeIcons.arrowDownShortWide).icon),
+          ),
         ),
       ),
     ]);

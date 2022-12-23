@@ -13,7 +13,7 @@ class ThemeSelection extends StatefulWidget {
 }
 
 class _ThemeSelectionState extends State<ThemeSelection> {
-  final themes = ["system", "light", "dark"];
+  final themes = ThemeMode.values.map((e) => e.name).toList();
   @override
   Widget build(BuildContext context) {
     return Column(
