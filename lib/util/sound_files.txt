@@ -1,0 +1,27 @@
+Bubble_sound.mp3    100
+Cardboard_tapping.mp3   50
+Fabric_rubbing.mp3  
+Hand_clapping.mp3  80
+Hand_rubbing.mp3    70
+Hard_plastic_tapping.mp3    25
+Leather_tapping.mp3   50
+Mouse_clicking.mp3    25
+Mouth_sound.mp3     40
+Nail_tapping.mp3    30
+Paper_crumbling.mp3   50
+Pencil_case_shaking.mp3   50
+Phone_case_tapping.mp3    80
+Pouring_water.mp3   15
+Rubbing.mp3     100
+Scribbling.mp3  100
+Scribbling_2.mp3    100
+Shake_near_empty_water_bottle.mp3   80
+Sloppy_snapping.mp3   60
+Water_bottle_gentle_shake.mp3   100
+Water_bottle_shake.mp3    50
+Water_horizontal_shake.mp3    30
+cup_tapping.mp3     20
+cup_tapping_2.mp3   30
+wood_tapping.mp3    20
+wood_tapping_2.mp3  50
+wood_tapping_3.mp3  80
