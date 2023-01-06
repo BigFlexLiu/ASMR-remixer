@@ -1,6 +1,7 @@
 import 'package:asmr_maker/components/common_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
+import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
 
 import '../providers/settings.dart';
@@ -40,13 +41,42 @@ class _ThemeSelectionState extends State<ThemeSelection> {
   }
 }
 
-class ContactMe extends StatelessWidget {
+class ContactMe extends StatefulWidget {
   const ContactMe({super.key});
 
   @override
+  State<ContactMe> createState() => _ContactMeState();
+}
+
+class _ContactMeState extends State<ContactMe> {
+  @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: () async {
+        EmailContent email = EmailContent(
+          to: [
+            'cfastapps@email.com',
+          ],
+          subject: 'Hello!',
+          body: 'How are you doing?',
+        );
+
+        OpenMailAppResult result = await OpenMailApp.composeNewEmailInMailApp(
+            nativePickerTitle: 'Select email app to compose',
+            emailContent: email);
+        if (!result.didOpen && !result.canOpen) {
+          if (!mounted) return;
+          showNoMailAppsDialog(context);
+        } else if (!result.didOpen && result.canOpen) {
+          showDialog(
+            context: context,
+            builder: (_) => MailAppPickerDialog(
+              mailApps: result.options,
+              emailContent: email,
+            ),
+          );
+        }
+      },
       label: const Text("Contact me"),
       icon: const Icon(Icons.email_outlined),
     );
@@ -88,4 +118,24 @@ class CommonPadding extends StatelessWidget {
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0), child: child);
   }
+}
+
+void showNoMailAppsDialog(BuildContext context, [bool mounted = true]) {
+  showDialog(
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        title: Text("Open Mail App"),
+        content: Text("No mail apps installed"),
+        actions: <Widget>[
+          TextButton(
+            child: Text("OK"),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          )
+        ],
+      );
+    },
+  );
 }
