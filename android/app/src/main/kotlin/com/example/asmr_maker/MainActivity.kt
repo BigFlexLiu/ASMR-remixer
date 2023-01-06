@@ -1,4 +1,4 @@
-package com.example.asmr_maker
+package com.cfast.asmrremixer.app
 
 import io.flutter.embedding.android.FlutterActivity
 

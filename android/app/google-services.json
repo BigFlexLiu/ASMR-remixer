@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "898335004083",
+    "project_id": "asmr-remixer",
+    "storage_bucket": "asmr-remixer.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:898335004083:android:9ad3830dfc060ad3b827c6",
+        "android_client_info": {
+          "package_name": "com.cfast.asmrremixer.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "898335004083-37p199hopgs9a090n3og72ir9fu238ft.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGFF20IWrbfMAlOuWn27G_8AqGm5sj8Ls"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "898335004083-37p199hopgs9a090n3og72ir9fu238ft.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,9 +1,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.asmr_maker">
+    package="com.cfast.asmrremixer.app">
    <application
-        android:label="asmr_maker"
+        android:label="Asmr Remixer"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher">
+        android:icon="@mipmap/icon_v2">
         <activity
             android:name=".MainActivity"
             android:exported="true"
