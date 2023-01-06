@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:group_radio_button/group_radio_button.dart';
 import 'package:open_mail_app/open_mail_app.dart';
 import 'package:provider/provider.dart';
+import 'package:launch_review/launch_review.dart';
 
 import '../providers/settings.dart';
 
@@ -89,7 +90,7 @@ class RateMe extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton.icon(
-      onPressed: () {},
+      onPressed: () => LaunchReview.launch(),
       label: const Text("Rate me"),
       icon: const Icon(Icons.rate_review),
     );
