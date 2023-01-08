@@ -20,7 +20,7 @@ class SettingsPage extends StatelessWidget {
               child: Text("Suggest a feature or contribute a sound?")),
           CommonPadding(child: ContactMe()),
           CommonDivider(),
-          CommonPadding(child: Text("Have an opinion about this app?")),
+          CommonPadding(child: Text("Have a thought about this app?")),
           CommonPadding(child: RateMe()),
           CommonDivider(),
           // Currently unused as discord is not setup
