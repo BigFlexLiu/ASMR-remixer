@@ -3,7 +3,7 @@
    <application
         android:label="Asmr Remixer"
         android:name="${applicationName}"
-        android:icon="@mipmap/icon_v4">
+        android:icon="@mipmap/icon_5">
         <activity
             android:name=".MainActivity"
             android:exported="true"
