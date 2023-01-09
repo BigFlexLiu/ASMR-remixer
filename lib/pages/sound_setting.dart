@@ -55,7 +55,7 @@ class _SoundSettingState extends State<SoundSetting> {
           min: widget.sound.frequencyRange[0],
           max: widget.sound.frequencyRange[1],
         ),
-        if (IS_BALANCE_ENABLED)
+        if (isBalanceEnabled)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -63,7 +63,7 @@ class _SoundSettingState extends State<SoundSetting> {
               Text(widget.balance.toStringAsFixed(2))
             ],
           ),
-        if (IS_BALANCE_ENABLED)
+        if (isBalanceEnabled)
           Slider(
             value: widget.balance,
             onChanged: (value) => setState(() => widget.balance = value),
