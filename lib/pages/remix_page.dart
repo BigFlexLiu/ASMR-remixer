@@ -7,6 +7,7 @@ import '../providers/remix.dart';
 import '../providers/remixes.dart';
 import '../providers/sound_clips.dart';
 import '../providers/sound_playing.dart';
+import '../util/global_settings.dart';
 import '../util/util.dart';
 
 class RemixPage extends StatefulWidget {
@@ -36,6 +37,7 @@ class _RemixPageState extends State<RemixPage> {
                       builder: (context) => AlertDialog(
                         title: const Text('Name your remix'),
                         content: TextField(
+                          maxLength: remixNameCharacterLength,
                           decoration:
                               const InputDecoration(hintText: 'unnamed'),
                           onChanged: (value) {

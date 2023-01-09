@@ -1,5 +1,6 @@
 import 'package:asmr_maker/components/enum_def.dart';
 import 'package:asmr_maker/components/settings_components.dart';
+import 'package:asmr_maker/util/global_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -47,6 +48,7 @@ class _RemixSettingsState extends State<RemixSettings> {
                 builder: (context) => AlertDialog(
                   title: const Text('Edit remix name'),
                   content: TextField(
+                    maxLength: remixNameCharacterLength,
                     decoration: const InputDecoration(
                         hintText: 'Give your remix a new name'),
                     onChanged: (value) {
