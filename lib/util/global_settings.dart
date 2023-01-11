@@ -3,4 +3,5 @@
 // Currently disabled due to AudioPlayer library having no support for it
 // on mobiles
 // See https://github.com/bluefireteam/audioplayers/blob/main/feature_parity_table.md
-const IS_BALANCE_ENABLED = false;
+const isBalanceEnabled = false;
+const remixNameCharacterLength = 50;

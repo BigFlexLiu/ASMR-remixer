@@ -1,3 +1,4 @@
+import 'package:asmr_maker/components/settings_components.dart';
 import 'package:asmr_maker/util/global_settings.dart';
 import 'package:flutter/material.dart';
 import '../providers/sound.dart';
@@ -22,12 +23,14 @@ class _SoundSettingState extends State<SoundSetting> {
     return Scaffold(
       appBar: AppBar(title: const Text("Sound setting")),
       body: Column(children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Volume"),
-            Text(widget.volume.toStringAsFixed(2))
-          ],
+        CommonPadding(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Volume"),
+              Text(widget.volume.toStringAsFixed(2))
+            ],
+          ),
         ),
         Slider(
           value: widget.volume,
@@ -36,12 +39,14 @@ class _SoundSettingState extends State<SoundSetting> {
           min: widget.sound.volumeRange[0],
           max: widget.sound.volumeRange[1],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            const Text("Frequency"),
-            Text(widget.frequency.toStringAsFixed(2))
-          ],
+        CommonPadding(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text("Frequency"),
+              Text(widget.frequency.toStringAsFixed(2))
+            ],
+          ),
         ),
         Slider(
           value: widget.frequency,
@@ -50,7 +55,7 @@ class _SoundSettingState extends State<SoundSetting> {
           min: widget.sound.frequencyRange[0],
           max: widget.sound.frequencyRange[1],
         ),
-        if (IS_BALANCE_ENABLED)
+        if (isBalanceEnabled)
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -58,7 +63,7 @@ class _SoundSettingState extends State<SoundSetting> {
               Text(widget.balance.toStringAsFixed(2))
             ],
           ),
-        if (IS_BALANCE_ENABLED)
+        if (isBalanceEnabled)
           Slider(
             value: widget.balance,
             onChanged: (value) => setState(() => widget.balance = value),

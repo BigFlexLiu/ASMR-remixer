@@ -142,7 +142,7 @@ class RemixPlayer {
     await player.stop();
     await player.setSource(AssetSource(sound.name));
     await player.setVolume(sound.volume);
-    if (IS_BALANCE_ENABLED) {
+    if (isBalanceEnabled) {
       await player.setBalance(sound.balance);
     }
     return player;

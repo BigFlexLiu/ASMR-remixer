@@ -21,7 +21,7 @@ class Sound with ChangeNotifier {
   AudioPlayer play() {
     var player = AudioPlayer();
     player.setVolume(_volume);
-    if (IS_BALANCE_ENABLED) {
+    if (isBalanceEnabled) {
       player.setBalance(balance);
     }
     player.play(AssetSource(name));
